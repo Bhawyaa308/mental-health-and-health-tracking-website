@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindEase - Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .auth-card {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 45px 55px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .auth-card h2 {
+        color: #4b5fbf;
+        margin-bottom: 25px;
+        font-size: 1.8rem;
+      }
+
+      .input-group {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #333;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+        transition: border-color 0.3s;
+        font-size: 1rem;
+      }
+
+      .input-group input:focus {
+        border-color: #4b5fbf;
+      }
+
+      .forgot {
+        display: block;
+        text-align: right;
+        margin-bottom: 20px;
+        color: #4b5fbf;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      .forgot:hover {
+        text-decoration: underline;
+      }
+
+      .gradient-btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #4b5fbf, #6c63ff);
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .gradient-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(76, 63, 191, 0.3);
+      }
+
+      .or {
+        margin: 20px 0;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .social-icons a {
+        margin: 0 10px;
+        color: #4b5fbf;
+        font-size: 1.2rem;
+        transition: transform 0.3s, color 0.3s;
+      }
+
+      .social-icons a:hover {
+        color: #2a3f8b;
+        transform: scale(1.2);
+      }
+
+      .switch {
+        margin-top: 25px;
+        color: #333;
+        font-size: 0.95rem;
+      }
+
+      .switch a {
+        color: #4b5fbf;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .switch a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="auth-card">
+      <h2>Welcome Back</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <label>Username</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Type your username"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Type your password"
+            required
+          />
+        </div>
+
+        <a href="#" class="forgot">Forgot password?</a>
+        <button type="submit" class="gradient-btn">Login</button>
+
+        <p class="or">Or Sign Up Using</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-google"></i></a>
+        </div>
+
+        <p class="switch">
+          Don’t have an account? <a href="sign_up.html">Sign Up</a>
+        </p>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("loginForm");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (username === "" || password === "") {
+          alert("Please fill all fields!");
+          return;
+        }
+
+        // Direct login success (remove hardcoded admin check)
+        alert("Login Successful! Redirecting...");
+        window.location.href = "health_tracking.html";
+      });
+    </script>
+  </body>
+</html>

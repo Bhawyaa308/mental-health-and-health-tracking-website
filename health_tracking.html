@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Tracking - MindBody Tracker</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        color: #2d3748;
+        line-height: 1.6;
+        background: linear-gradient(
+          135deg,
+          #ffecd2 0%,
+          #e3d4bd 30%,
+          #c1e2e0 70%,
+          #fed6e3 100%
+        );
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 30px;
+      }
+
+      /* Hamburger Navigation - Same as landing page */
+      #masthead {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 1.2em 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      #masthead:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      #masthead.is-active:after {
+        opacity: 1;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      #masthead.is-active .logo {
+        color: #1a202c;
+      }
+
+      .logo-icon {
+        font-size: 20px;
+      }
+
+      .hamburger {
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        display: inline-block;
+        padding: 0;
+        outline: none;
+        transition: opacity 0.15s;
+      }
+
+      .hamburger:hover {
+        opacity: 0.7;
+      }
+
+      .hamburger-box {
+        width: 28px;
+        height: 22px;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+      }
+
+      .hamburger-inner {
+        display: block;
+        top: 50%;
+        margin-top: -2px;
+      }
+
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        width: 28px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 4px;
+        position: absolute;
+        transition: transform 0.15s ease;
+      }
+
+      #masthead.is-active .hamburger-inner,
+      #masthead.is-active .hamburger-inner::before,
+      #masthead.is-active .hamburger-inner::after {
+        background-color: #667eea;
+      }
+
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        content: "";
+        display: block;
+      }
+
+      .hamburger-inner::before {
+        top: -8px;
+      }
+
+      .hamburger-inner::after {
+        bottom: -8px;
+      }
+
+      .hamburger.is-active .hamburger-inner {
+        transform: rotate(45deg);
+      }
+
+      .hamburger.is-active .hamburger-inner::before {
+        top: 0;
+        opacity: 0;
+      }
+
+      .hamburger.is-active .hamburger-inner::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+      }
+
+      .hamburger-label {
+        color: #fff;
+        display: inline-block;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        margin-left: 0.4em;
+        text-transform: uppercase;
+        vertical-align: middle;
+        font-size: 13px;
+      }
+
+      #masthead.is-active .hamburger-label {
+        color: #667eea;
+      }
+
+      #masthead-search {
+        max-width: 13em;
+        position: relative;
+      }
+
+      #masthead-search input {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50px;
+        outline: none;
+        width: 100%;
+        padding: 0.6em 2.3em 0.6em 1em;
+        transition: all 0.3s ease;
+        color: #fff;
+        font-size: 13px;
+      }
+
+      #masthead-search input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      #masthead.is-active #masthead-search input {
+        border-color: #e2e8f0;
+        color: #2d3748;
+      }
+
+      #masthead.is-active #masthead-search input::placeholder {
+        color: #a0aec0;
+      }
+
+      #masthead-search button {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.1em;
+        padding: 0;
+        position: absolute;
+        top: 50%;
+        right: 0.7em;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      #masthead.is-active #masthead-search button {
+        color: #667eea;
+      }
+
+      #site-nav {
+        display: none;
+        padding-top: 2.5em;
+        padding-bottom: 1.5em;
+      }
+
+      #site-nav.is-active {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      #site-nav .col {
+        flex: 0 0 calc(20% - 24px);
+        opacity: 0;
+      }
+
+      #masthead.is-active #site-nav .col {
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      #masthead.is-active #site-nav .col:nth-child(1) {
+        animation-delay: 0s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(3) {
+        animation-delay: 0.16s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(4) {
+        animation-delay: 0.24s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(5) {
+        animation-delay: 0.32s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #site-nav h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.8em;
+        color: #1a202c;
+      }
+
+      #site-nav ul {
+        list-style-type: none;
+      }
+
+      #site-nav li {
+        margin-bottom: 0.6em;
+      }
+
+      #site-nav li a {
+        color: #718096;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      #site-nav li a:hover {
+        color: #667eea;
+        padding-left: 5px;
+      }
+
+      #site-nav .social {
+        display: flex;
+        gap: 10px;
+        margin-top: 0.8em;
+      }
+
+      #site-nav .social li {
+        margin: 0;
+        width: 36px;
+        height: 36px;
+      }
+
+      #site-nav .social li a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      #site-nav .social li a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+        padding: 0;
+      }
+
+      #site-nav .social li svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+      }
+
+      /* Dashboard Layout */
+      .dashboard {
+        padding: 100px 0 40px;
+      }
+
+      .dashboard-header {
+        margin-bottom: 30px;
+      }
+
+      .dashboard-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+      }
+
+      .dashboard-header p {
+        font-size: 15px;
+        color: #4a5568;
+        font-weight: 400;
+      }
+
+      .date-selector {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .date-btn {
+        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 500;
+        color: #4a5568;
+        font-size: 13px;
+      }
+
+      .date-btn.active {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #1a202c;
+        border-color: transparent;
+        box-shadow: 0 4px 12px rgba(168, 237, 234, 0.4);
+      }
+
+      .date-btn:hover {
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .date-btn.active:hover {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+      }
+
+      .stat-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 14px;
+      }
+
+      .stat-card:nth-child(1) .stat-icon {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      }
+
+      .stat-card:nth-child(2) .stat-icon {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+
+      .stat-card:nth-child(3) .stat-icon {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+
+      .stat-card:nth-child(4) .stat-icon {
+        background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #718096;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 4px;
+      }
+
+      .stat-change {
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .stat-change.positive {
+        color: #10b981;
+      }
+
+      .stat-change.negative {
+        color: #ef4444;
+      }
+
+      /* Main Content Grid */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1.8fr 1.2fr;
+        gap: 18px;
+        margin-bottom: 25px;
+      }
+
+      .card {
+        padding: 28px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        transition: all 0.3s;
+      }
+
+      .card:hover {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #1a202c;
+      }
+
+      .card-action {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 13px;
+        transition: all 0.3s;
+      }
+
+      .card-action:hover {
+        transform: translateX(4px);
+        display: inline-block;
+      }
+
+      /* Activity Chart */
+      .chart-container {
+        height: 200px;
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        padding: 15px 0;
+      }
+
+      .chart-bar {
+        flex: 1;
+        background: linear-gradient(180deg, #fbc2eb 0%, #a6c1ee 100%);
+        border-radius: 8px 8px 0 0;
+        position: relative;
+        transition: all 0.3s;
+        cursor: pointer;
+        min-height: 25px;
+      }
+
+      .chart-bar:hover {
+        opacity: 0.8;
+        transform: translateY(-4px);
+      }
+
+      .chart-label {
+        text-align: center;
+        font-size: 11px;
+        color: #718096;
+        margin-top: 8px;
+        font-weight: 600;
+      }
+
+      /* Goals Progress */
+      .goals-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .goal-item {
+        padding: 18px;
+        background: linear-gradient(
+          135deg,
+          rgba(251, 194, 235, 0.15) 0%,
+          rgba(166, 193, 238, 0.15) 100%
+        );
+        border-radius: 14px;
+        transition: all 0.3s;
+      }
+
+      .goal-item:hover {
+        transform: translateX(4px);
+        background: linear-gradient(
+          135deg,
+          rgba(251, 194, 235, 0.25) 0%,
+          rgba(166, 193, 238, 0.25) 100%
+        );
+      }
+
+      .goal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .goal-name {
+        font-weight: 600;
+        color: #1a202c;
+        font-size: 14px;
+      }
+
+      .goal-percentage {
+        font-weight: 700;
+        color: #a6c1ee;
+        font-size: 14px;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: rgba(166, 193, 238, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%);
+        border-radius: 10px;
+        transition: width 1s ease;
+      }
+
+      /* Activities Section */
+      .activities-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .activity-card {
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        text-align: center;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+
+      .activity-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+
+      .activity-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 14px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+      }
+
+      .activity-card:nth-child(1) .activity-icon {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      }
+
+      .activity-card:nth-child(2) .activity-icon {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .activity-card:nth-child(3) .activity-icon {
+        background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      }
+
+      .activity-card:nth-child(4) .activity-icon {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+
+      .activity-card:nth-child(5) .activity-icon {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+
+      .activity-card:nth-child(6) .activity-icon {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+
+      .activity-name {
+        font-weight: 600;
+        color: #1a202c;
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+
+      .activity-time {
+        color: #718096;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      /* Quick Actions */
+      .quick-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 14px;
+        background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 6px 20px rgba(251, 194, 235, 0.3);
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(251, 194, 235, 0.4);
+      }
+
+      .action-btn.secondary {
+        background: white;
+        color: #a6c1ee;
+        border: 2px solid rgba(166, 193, 238, 0.3);
+        box-shadow: none;
+      }
+
+      .action-btn.secondary:hover {
+        border-color: #a6c1ee;
+        box-shadow: 0 6px 20px rgba(166, 193, 238, 0.2);
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .auth-btn {
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        font-family: "Inter", sans-serif;
+      }
+
+      .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 215, 227, 0.3);
+      }
+
+      .profile-pic {
+        width: 35px;
+        height: 35px;
+        background: rgba(245, 215, 227, 0.4);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4a5568;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .profile-pic:hover {
+        background: rgba(245, 215, 227, 0.6);
+      }
+
+      .profile-pic i {
+        font-size: 16px;
+      }
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .activities-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        #site-nav.is-active {
+          flex-direction: column;
+        }
+
+        #site-nav .col {
+          flex: 0 0 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 20px;
+        }
+
+        .dashboard-header h1 {
+          font-size: 28px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .activities-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .quick-actions {
+          flex-direction: column;
+        }
+
+        .date-selector {
+          flex-wrap: wrap;
+        }
+
+        #masthead-search {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <defs>
+        <symbol viewBox="0 0 60 60" id="icon-facebook">
+          <path
+            d="M25.8 46.3h6.7V30H37l.6-5.6h-5.1v-2.8c0-1.5.1-2.3 2.2-2.3h2.8v-5.6H33c-5.4 0-7.3 2.7-7.3 7.3v3.4h-3.4V30h3.4v16.3zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30z"
+          />
+        </symbol>
+        <symbol viewBox="0 0 60 60" id="icon-linkedin">
+          <path
+            d="M46.8 44.1V32.4c0-6.3-3.3-9.2-7.8-9.2-3.6 0-5.2 2-6.1 3.4v-2.9h-6.8c.1 1.9 0 20.4 0 20.4h6.8V32.7c0-.6 0-1.2.2-1.7.5-1.2 1.6-2.5 3.5-2.5 2.5 0 3.4 1.9 3.4 4.6V44l6.8.1zM19 20.9c2.4 0 3.8-1.6 3.8-3.5 0-2-1.5-3.5-3.8-3.5s-3.8 1.5-3.8 3.5 1.4 3.5 3.8 3.5zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30zm-7.6-15.9V23.7h-6.8v20.4h6.8z"
+          />
+        </symbol>
+        <symbol viewBox="0 0 60 60" id="icon-twitter">
+          <path
+            d="M34.2 18.3c-2.6 1-4.3 3.4-4.1 6.1l.1 1-1-.1c-3.8-.5-7.1-2.1-10-4.9L17.7 19l-.4 1c-.8 2.3-.3 4.7 1.3 6.3.8.9.6 1-.8.5-.5-.2-.9-.3-1-.2-.1.1.4 2.1.8 2.8.5 1.1 1.7 2.1 2.9 2.7l1 .5h-1.2c-1.2 0-1.2 0-1.1.5.4 1.4 2.1 2.8 3.9 3.5l1.3.4-1.1.7c-1.7 1-3.6 1.5-5.6 1.6-.9 0-1.7.1-1.7.2 0 .2 2.6 1.4 4 1.9 4.5 1.4 9.8.8 13.7-1.6 2.8-1.7 5.7-5 7-8.2.7-1.7 1.4-4.9 1.4-6.4 0-1 .1-1.1 1.2-2.3.7-.7 1.3-1.4 1.5-1.6.2-.4.2-.4-.9 0-1.8.6-2 .6-1.2-.4.6-.7 1.4-1.9 1.4-2.3 0-.1-.3 0-.7.2-.4.2-1.2.5-1.8.7l-1.1.4-1-.7c-.6-.4-1.4-.8-1.8-.9-.9-.4-2.6-.4-3.5 0zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30z"
+          />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header id="masthead" role="banner">
+      <div class="container">
+        <div class="nav-header">
+          <a href="#" class="logo">
+            <span class="logo-icon">❤️</span>
+            <span>MindBody Tracker</span>
+          </a>
+
+          <form id="masthead-search">
+            <input
+              type="search"
+              name="s"
+              placeholder="Search..."
+              class="draw"
+            />
+            <button type="submit">→</button>
+          </form>
+          <!--                 
+                <div class="nav-right"> -->
+          <div class="auth-buttons">
+            <a href="login.html"><button class="auth-btn">Login</button></a>
+            <a href="sign_up.html"><button class="auth-btn">Sign Up</button></a>
+            <div class="profile-pic">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+
+          <button class="hamburger" type="button">
+            <span class="hamburger-box">
+              <span class="hamburger-inner"></span>
+            </span>
+            <span class="hamburger-label">Menu</span>
+          </button>
+          <!-- </div> -->
+        </div>
+
+        <nav id="site-nav" role="navigation">
+          <div class="col">
+            <h4>Features</h4>
+            <ul>
+              <li><a href="#">Health Tracking</a></li>
+              <li><a href="#">Mental Wellness</a></li>
+              <li><a href="#">Holistic Approach</a></li>
+              <li><a href="#">Progress Insights</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">How It Works</a></li>
+              <li><a href="#">Testimonials</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Success Stories</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Our Mission</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Connect</h4>
+            <ul class="social">
+              <li>
+                <a href="#"
+                  ><svg><use xlink:href="#icon-facebook"></use></svg
+                ></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><svg><use xlink:href="#icon-twitter"></use></svg
+                ></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><svg><use xlink:href="#icon-linkedin"></use></svg
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <div class="container">
+        <div class="dashboard-header">
+          <h1>Health Tracking</h1>
+          <p>Monitor your wellness journey and stay on track with your goals</p>
+          <div class="date-selector">
+            <button class="date-btn">Today</button>
+            <button class="date-btn active">This Week</button>
+            <button class="date-btn">This Month</button>
+            <button class="date-btn">This Year</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🏃</div>
+            <div class="stat-label">Steps</div>
+            <div class="stat-value">8,547</div>
+            <div class="stat-change positive">↑ 12% from last week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-label">Calories</div>
+            <div class="stat-value">2,340</div>
+            <div class="stat-change positive">↑ 5% from last week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">😊</div>
+            <div class="stat-label">Mood Score</div>
+            <div class="stat-value">8.5/10</div>
+            <div class="stat-change positive">↑ 0.5 from last week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">😴</div>
+            <div class="stat-label">Sleep</div>
+            <div class="stat-value">7.2h</div>
+            <div class="stat-change negative">↓ 0.3h from last week</div>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Weekly Activity</h2>
+              <a href="#" class="card-action">View Details →</a>
+            </div>
+            <div class="chart-container">
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 45%"></div>
+                <div class="chart-label">Mon</div>
+              </div>
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 60%"></div>
+                <div class="chart-label">Tue</div>
+              </div>
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 75%"></div>
+                <div class="chart-label">Wed</div>
+              </div>
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 55%"></div>
+                <div class="chart-label">Thu</div>
+              </div>
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 85%"></div>
+                <div class="chart-label">Fri</div>
+              </div>
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 65%"></div>
+                <div class="chart-label">Sat</div>
+              </div>
+              <div
+                style="
+                  flex-direction: column;
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+                "
+              >
+                <div class="chart-bar" style="height: 50%"></div>
+                <div class="chart-label">Sun</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Goals</h2>
+              <a href="#" class="card-action">Manage →</a>
+            </div>
+            <div class="goals-list">
+              <div class="goal-item">
+                <div class="goal-header">
+                  <span class="goal-name">Daily Steps</span>
+                  <span class="goal-percentage">85%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-header">
+                  <span class="goal-name">Water Intake</span>
+                  <span class="goal-percentage">60%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 60%"></div>
+                </div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-header">
+                  <span class="goal-name">Meditation</span>
+                  <span class="goal-percentage">100%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-header">
+                  <span class="goal-name">Exercise</span>
+                  <span class="goal-percentage">75%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Recent Activities</h2>
+            <a href="#" class="card-action">View All →</a>
+          </div>
+          <div class="activities-grid">
+            <div class="activity-card">
+              <div class="activity-icon">🏃‍♂️</div>
+              <div class="activity-name">Morning Run</div>
+              <div class="activity-time">30 mins • Today</div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-icon">🧘‍♀️</div>
+              <div class="activity-name">Yoga Session</div>
+              <div class="activity-time">45 mins • Today</div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-icon">💧</div>
+              <div class="activity-name">Hydration</div>
+              <div class="activity-time">1.5L • Today</div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-icon">🥗</div>
+              <div class="activity-name">Healthy Meal</div>
+              <div class="activity-time">450 cal • Lunch</div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-icon">🧠</div>
+              <div class="activity-name">Meditation</div>
+              <div class="activity-time">15 mins • Morning</div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-icon">😴</div>
+              <div class="activity-name">Sleep</div>
+              <div class="activity-time">7h 12m • Last Night</div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="action-btn">+ Log Activity</button>
+            <button class="action-btn secondary">View Insights</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Hamburger menu toggle
+      const hamburger = document.querySelector(".hamburger");
+      const nav = document.getElementById("site-nav");
+      const masthead = document.getElementById("masthead");
+
+      hamburger.addEventListener("click", function () {
+        this.classList.toggle("is-active");
+        nav.classList.toggle("is-active");
+        masthead.classList.toggle("is-active");
+      });
+
+      // Date selector functionality
+      const dateButtons = document.querySelectorAll(".date-btn");
+      dateButtons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          dateButtons.forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+        });
+      });
+
+      // Animate progress bars on load
+      window.addEventListener("load", () => {
+        const progressBars = document.querySelectorAll(".progress-fill");
+        progressBars.forEach((bar) => {
+          const width = bar.style.width;
+          bar.style.width = "0";
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 100);
+        });
+      });
+
+      // Chart bar interaction
+      const chartBars = document.querySelectorAll(".chart-bar");
+      chartBars.forEach((bar) => {
+        bar.addEventListener("mouseenter", function () {
+          this.style.filter = "brightness(1.1)";
+        });
+        bar.addEventListener("mouseleave", function () {
+          this.style.filter = "brightness(1)";
+        });
+      });
+
+      // Activity cards click handler
+      const activityCards = document.querySelectorAll(".activity-card");
+      activityCards.forEach((card) => {
+        card.addEventListener("click", function () {
+          console.log(
+            "Activity clicked:",
+            this.querySelector(".activity-name").textContent
+          );
+        });
+      });
+
+      // Close menu when clicking navigation links
+      document.querySelectorAll("#site-nav a").forEach((link) => {
+        link.addEventListener("click", function () {
+          hamburger.classList.remove("is-active");
+          nav.classList.remove("is-active");
+          masthead.classList.remove("is-active");
+        });
+      });
+    </script>
+  </body>
+</html>

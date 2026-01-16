@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - MindBody Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fef5ff 0%, #f0f5ff 50%, #fff5f9 100%);
+            min-height: 100vh;
+            padding: 25px 15px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding: 0 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d2d2d;
+        }
+
+        .heart {
+            color: #ff4757;
+            font-size: 22px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #2d2d2d;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .menu-btn::before,
+        .menu-btn::after {
+            content: '';
+            width: 26px;
+            height: 2px;
+            background: #2d2d2d;
+        }
+
+        .menu-btn::after {
+            width: 20px;
+        }
+
+        h1 {
+            font-size: 38px;
+            color: #2d2d2d;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px 28px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .section-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #f8f0ff 0%, #ffe6f0 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #8b6b9e;
+            flex-shrink: 0;
+        }
+
+        .section-content h2 {
+            font-size: 22px;
+            color: #2d2d2d;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .section-content p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .grid-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px 28px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #fefaff 0%, #fffbfd 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(230, 220, 240, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #f0e8ff 0%, #ffe9f3 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 15px;
+            color: #8b6b9e;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 5px;
+        }
+
+        .info-desc {
+            font-size: 13px;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+                margin-bottom: 25px;
+            }
+
+            .section, .grid-section {
+                padding: 20px 22px;
+                margin-bottom: 15px;
+            }
+
+            .section-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+
+            .section-header {
+                gap: 15px;
+            }
+
+            .section-content h2 {
+                font-size: 20px;
+            }
+
+            .section-content p {
+                font-size: 13px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="heart">❤</span>
+                <span>MindBody Tracker</span>
+            </div>
+            <button class="menu-btn">MENU</button>
+        </header>
+
+        <h1>Support</h1>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-life-ring"></i>
+                </div>
+                <div class="section-content">
+                    <h2>Help Center</h2>
+                    <p>Browse our comprehensive help articles, guides, and tutorials to get the most out of MindBody Tracker.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="section-content">
+                    <h2>Privacy Policy</h2>
+                    <p>Learn how we protect your data and respect your privacy. Your trust is our top priority.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <div class="section-content">
+                    <h2>Terms of Service</h2>
+                    <p>Review our terms and conditions to understand your rights and responsibilities when using our platform.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="section-content">
+                    <h2>FAQ</h2>
+                    <p>Find quick answers to commonly asked questions about features, billing, and account management.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-section">
+            <h2 style="font-size: 22px; color: #2d2d2d; margin-bottom: 10px; font-weight: 600;">Get in Touch</h2>
+            <p style="color: #555; font-size: 14px; margin-bottom: 20px;">Need personalized assistance? Reach out through any of these channels.</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="info-title">Email Support</div>
+                    <div class="info-desc">support@mindbodytracker.com</div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="info-title">Live Chat</div>
+                    <div class="info-desc">Available 24/7</div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="info-title">Phone</div>
+                    <div class="info-desc">1-800-WELLNESS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

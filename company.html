@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company - MindBody Tracker</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #fef5ff 0%,
+          #f0f5ff 50%,
+          #fff5f9 100%
+        );
+        min-height: 100vh;
+        padding: 25px 15px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 35px;
+        padding: 0 10px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #2d2d2d;
+      }
+
+      .heart {
+        color: #ff4757;
+        font-size: 22px;
+      }
+
+      .menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        color: #2d2d2d;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 3px;
+      }
+
+      .menu-btn::before,
+      .menu-btn::after {
+        content: "";
+        width: 26px;
+        height: 2px;
+        background: #2d2d2d;
+      }
+
+      .menu-btn::after {
+        width: 20px;
+      }
+
+      h1 {
+        font-size: 38px;
+        color: #2d2d2d;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .section {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 25px 28px;
+        margin-bottom: 18px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .section-number {
+        width: 55px;
+        height: 55px;
+        background: linear-gradient(135deg, #f8f0ff 0%, #ffe6f0 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 700;
+        color: #8b6b9e;
+        flex-shrink: 0;
+      }
+
+      .section-content h2 {
+        font-size: 22px;
+        color: #2d2d2d;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .section-content p {
+        color: #555;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .team-card {
+        background: linear-gradient(135deg, #fefaff 0%, #fffbfd 100%);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        border: 1px solid rgba(230, 220, 240, 0.4);
+      }
+
+      .team-avatar {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #f0e8ff 0%, #ffe9f3 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        margin: 0 auto 15px;
+      }
+
+      .team-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2d2d2d;
+        margin-bottom: 5px;
+      }
+
+      .team-role {
+        font-size: 13px;
+        color: #777;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 32px;
+          margin-bottom: 25px;
+        }
+
+        .section {
+          padding: 20px 22px;
+          margin-bottom: 15px;
+        }
+
+        .section-number {
+          width: 50px;
+          height: 50px;
+          font-size: 20px;
+        }
+
+        .section-header {
+          gap: 15px;
+        }
+
+        .section-content h2 {
+          font-size: 20px;
+        }
+
+        .section-content p {
+          font-size: 13px;
+        }
+
+        .team-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <span class="heart">❤</span>
+          <span>MindBody Tracker</span>
+        </div>
+        <button class="menu-btn">MENU</button>
+      </header>
+
+      <h1>Company</h1>
+
+      <div class="section">
+        <div class="section-header">
+          <div class="section-number">01</div>
+          <div class="section-content">
+            <h2>About Us</h2>
+            <p>
+              MindBody Tracker is dedicated to making mental wellness accessible
+              to everyone. We believe in the power of technology to support
+              personal growth and emotional wellbeing.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <div class="section-number">02</div>
+          <div class="section-content">
+            <h2>Our Mission</h2>
+            <p>
+              To empower individuals on their wellness journey through
+              innovative tools and compassionate support. We strive to break
+              down barriers to mental health care.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <div class="section-number">03</div>
+          <div class="section-content">
+            <h2>Contact</h2>
+            <p>
+              Have questions or feedback? We'd love to hear from you. Our team
+              is here to support your wellness journey.
+            </p>
+          </div>
+        </div>
+
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-avatar">📧</div>
+            <div class="team-name">Email Us</div>
+            <div class="team-role">support@mindbodytracker.com</div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar">💬</div>
+            <div class="team-name">Live Chat</div>
+            <div class="team-role">Available 24/7</div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-avatar">📍</div>
+            <div class="team-name">Visit Us</div>
+            <div class="team-role">San Francisco, CA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
