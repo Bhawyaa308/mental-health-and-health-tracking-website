@@ -1,970 +1,1087 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MindBody Tracker - Your Peaceful Wellness Journey</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #2d3748;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #fff5eb 0%, #ffe8d9 30%, #e0f7f7 70%, #fef0f5 100%);
-            min-height: 100vh;
-        }
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        color: #2d3748;
+        line-height: 1.6;
+        background: linear-gradient(
+          135deg,
+          #fff5eb 0%,
+          #ffe8d9 30%,
+          #e0f7f7 70%,
+          #fef0f5 100%
+        );
+        min-height: 100vh;
+      }
 
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 25px;
-        }
+      .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 25px;
+      }
 
-        #masthead {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1em 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
+      #masthead {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 1em 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
 
-        #masthead:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
+      #masthead:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
 
-        #masthead.is-active:after {
-            opacity: 1;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
+      #masthead.is-active:after {
+        opacity: 1;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
 
-        .nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            font-weight: 600;
-            color: #1a202c;
-            text-decoration: none;
-        }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a202c;
+        text-decoration: none;
+      }
 
-        .logo-icon {
-            font-size: 20px;
-        }
+      .logo-icon {
+        font-size: 20px;
+      }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
 
-        .auth-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+      .auth-buttons {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
 
-        .auth-btn {
-            padding: 8px 20px;
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            color: #1a202c;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
+      .auth-btn {
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        font-family: "Inter", sans-serif;
+      }
 
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 215, 227, 0.3);
-        }
+      .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 215, 227, 0.3);
+      }
 
-        .profile-pic {
-            width: 35px;
-            height: 35px;
-            background: rgba(245, 215, 227, 0.4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4a5568;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+      .profile-pic {
+        width: 35px;
+        height: 35px;
+        background: rgba(245, 215, 227, 0.4);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4a5568;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
 
-        .profile-pic:hover {
-            background: rgba(245, 215, 227, 0.6);
-        }
+      .profile-pic:hover {
+        background: rgba(245, 215, 227, 0.6);
+      }
 
-        .profile-pic i {
-            font-size: 16px;
-        }
+      .profile-pic i {
+        font-size: 16px;
+      }
 
-        .hamburger {
-            background-color: transparent;
-            border: 0;
-            cursor: pointer;
-            display: inline-block;
-            padding: 0;
-            outline: none;
-            transition: opacity 0.15s;
-        }
+      .hamburger {
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        display: inline-block;
+        padding: 0;
+        outline: none;
+        transition: opacity 0.15s;
+      }
 
-        .hamburger:hover {
-            opacity: 0.7;
-        }
+      .hamburger:hover {
+        opacity: 0.7;
+      }
 
-        .hamburger-box {
-            width: 28px;
-            height: 22px;
-            display: inline-block;
-            position: relative;
-            vertical-align: middle;
-        }
+      .hamburger-box {
+        width: 28px;
+        height: 22px;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+      }
 
-        .hamburger-inner {
-            display: block;
-            top: 50%;
-            margin-top: -2px;
-        }
+      .hamburger-inner {
+        display: block;
+        top: 50%;
+        margin-top: -2px;
+      }
 
-        .hamburger-inner,
-        .hamburger-inner::before,
-        .hamburger-inner::after {
-            width: 28px;
-            height: 2px;
-            background-color: #1a202c;
-            border-radius: 4px;
-            position: absolute;
-            transition: transform 0.15s ease;
-        }
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        width: 28px;
+        height: 2px;
+        background-color: #1a202c;
+        border-radius: 4px;
+        position: absolute;
+        transition: transform 0.15s ease;
+      }
 
-        #masthead.is-active .hamburger-inner,
-        #masthead.is-active .hamburger-inner::before,
-        #masthead.is-active .hamburger-inner::after {
-            background-color: #667eea;
-        }
+      #masthead.is-active .hamburger-inner,
+      #masthead.is-active .hamburger-inner::before,
+      #masthead.is-active .hamburger-inner::after {
+        background-color: #667eea;
+      }
 
-        .hamburger-inner::before,
-        .hamburger-inner::after {
-            content: "";
-            display: block;
-        }
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        content: "";
+        display: block;
+      }
 
-        .hamburger-inner::before {
-            top: -8px;
-        }
+      .hamburger-inner::before {
+        top: -8px;
+      }
 
-        .hamburger-inner::after {
-            bottom: -8px;
-        }
+      .hamburger-inner::after {
+        bottom: -8px;
+      }
 
-        .hamburger.is-active .hamburger-inner {
-            transform: rotate(45deg);
-        }
+      .hamburger.is-active .hamburger-inner {
+        transform: rotate(45deg);
+      }
 
-        .hamburger.is-active .hamburger-inner::before {
-            top: 0;
-            opacity: 0;
-        }
+      .hamburger.is-active .hamburger-inner::before {
+        top: 0;
+        opacity: 0;
+      }
 
-        .hamburger.is-active .hamburger-inner::after {
-            bottom: 0;
-            transform: rotate(-90deg);
-        }
+      .hamburger.is-active .hamburger-inner::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+      }
 
-        .hamburger-label {
-            color: #1a202c;
-            display: inline-block;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            line-height: 1;
-            margin-left: 0.4em;
-            text-transform: uppercase;
-            vertical-align: middle;
-            font-size: 13px;
-        }
+      .hamburger-label {
+        color: #1a202c;
+        display: inline-block;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        margin-left: 0.4em;
+        text-transform: uppercase;
+        vertical-align: middle;
+        font-size: 13px;
+      }
 
-        #masthead.is-active .hamburger-label {
-            color: #667eea;
-        }
+      #masthead.is-active .hamburger-label {
+        color: #667eea;
+      }
 
-        #site-nav {
-            display: none;
-            padding-top: 2.5em;
-            padding-bottom: 1.5em;
-        }
+      #site-nav {
+        display: none;
+        padding-top: 2.5em;
+        padding-bottom: 1.5em;
+      }
 
+      #site-nav.is-active {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      #site-nav .col {
+        flex: 0 0 calc(20% - 24px);
+        opacity: 0;
+      }
+
+      #masthead.is-active #site-nav .col {
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      #masthead.is-active #site-nav .col:nth-child(1) {
+        animation-delay: 0s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(3) {
+        animation-delay: 0.16s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(4) {
+        animation-delay: 0.24s;
+      }
+      #masthead.is-active #site-nav .col:nth-child(5) {
+        animation-delay: 0.32s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #site-nav h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.8em;
+        color: #1a202c;
+      }
+
+      #site-nav ul {
+        list-style-type: none;
+      }
+
+      #site-nav li {
+        margin-bottom: 0.6em;
+      }
+
+      #site-nav li a {
+        color: #718096;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      #site-nav li a:hover {
+        color: #667eea;
+        padding-left: 5px;
+      }
+
+      #site-nav .social {
+        display: flex;
+        gap: 10px;
+        margin-top: 0.8em;
+      }
+
+      #site-nav .social li {
+        margin: 0;
+        width: 36px;
+        height: 36px;
+      }
+
+      #site-nav .social li a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      #site-nav .social li a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(245, 215, 227, 0.3);
+        padding: 0;
+      }
+
+      #site-nav .social li i {
+        color: #1a202c;
+        font-size: 16px;
+      }
+
+      .hero {
+        padding: 100px 25px 30px;
+      }
+
+      .welcome-section {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .welcome-header {
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      .welcome-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 38px;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+      }
+
+      .welcome-header p {
+        font-size: 14px;
+        color: #4a5568;
+        font-weight: 300;
+      }
+
+      .quotes-section {
+        background: #ffffff;
+        padding: 20px 30px;
+        border-radius: 20px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .quote {
+        font-family: "Playfair Display", serif;
+        font-size: 24px;
+        font-style: italic;
+        color: #1a202c;
+        margin-bottom: 16px;
+        line-height: 1.6;
+      }
+
+      .quote-author {
+        font-size: 15px;
+        color: #718096;
+        font-weight: 500;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        padding: 0 25px 30px;
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 24px;
+        border-radius: 18px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-icon {
+        font-size: 40px;
+        margin-bottom: 14px;
+      }
+
+      .card:nth-child(1) .card-icon {
+        color: #f5d7e3;
+      }
+      .card:nth-child(2) .card-icon {
+        color: #d4e5f7;
+      }
+      .card:nth-child(3) .card-icon {
+        color: #ffe8d9;
+      }
+      .card:nth-child(4) .card-icon {
+        color: #e0f7f7;
+      }
+      .card:nth-child(5) .card-icon {
+        color: #fef0f5;
+      }
+      .card:nth-child(6) .card-icon {
+        color: #f5d7e3;
+      }
+      .card:nth-child(7) .card-icon {
+        color: #d4e5f7;
+      }
+
+      .card h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 18px;
+        color: #1a202c;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .card p {
+        color: #4a5568;
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 14px;
+        font-weight: 300;
+      }
+
+      .card-button {
+        padding: 10px 24px;
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s;
+        font-weight: 600;
+        font-family: "Inter", sans-serif;
+      }
+
+      .card-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 215, 227, 0.3);
+      }
+
+      .chat-button {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 55px;
+        height: 55px;
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        border-radius: 50%;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(245, 215, 227, 0.3);
+        transition: all 0.3s;
+        z-index: 999;
+      }
+
+      .chat-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 28px rgba(245, 215, 227, 0.4);
+      }
+
+      .chat-box {
+        position: fixed;
+        bottom: 90px;
+        right: 25px;
+        width: 320px;
+        height: 420px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        display: none;
+        flex-direction: column;
+        z-index: 998;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+      }
+
+      .chat-box.active {
+        display: flex;
+      }
+
+      .chat-header {
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        padding: 16px;
+        border-radius: 18px 18px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .chat-close {
+        background: none;
+        border: none;
+        color: #1a202c;
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      .chat-messages {
+        flex: 1;
+        padding: 16px;
+        overflow-y: auto;
+      }
+
+      .message {
+        margin-bottom: 12px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        max-width: 80%;
+        font-size: 13px;
+        animation: messageSlide 0.3s ease;
+      }
+
+      @keyframes messageSlide {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message.bot {
+        background: rgba(245, 215, 227, 0.3);
+        margin-right: auto;
+        color: #1a202c;
+      }
+
+      .message.user {
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        margin-left: auto;
+      }
+
+      .chat-input-container {
+        padding: 14px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 8px;
+      }
+
+      .chat-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50px;
+        outline: none;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .chat-send {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
+        color: #1a202c;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.3s;
+      }
+
+      .chat-send:hover {
+        transform: translateY(-2px);
+      }
+
+      footer {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        text-align: center;
+        padding: 28px;
+        margin-top: 40px;
+        color: #4a5568;
+      }
+
+      footer p {
+        margin: 5px 0;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      @media (max-width: 1200px) {
         #site-nav.is-active {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 30px;
+          flex-direction: column;
         }
 
         #site-nav .col {
-            flex: 0 0 calc(20% - 24px);
-            opacity: 0;
+          flex: 0 0 100%;
         }
+      }
 
-        #masthead.is-active #site-nav .col {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-
-        #masthead.is-active #site-nav .col:nth-child(1) { animation-delay: 0s; }
-        #masthead.is-active #site-nav .col:nth-child(2) { animation-delay: 0.08s; }
-        #masthead.is-active #site-nav .col:nth-child(3) { animation-delay: 0.16s; }
-        #masthead.is-active #site-nav .col:nth-child(4) { animation-delay: 0.24s; }
-        #masthead.is-active #site-nav .col:nth-child(5) { animation-delay: 0.32s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #site-nav h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.8em;
-            color: #1a202c;
-        }
-
-        #site-nav ul {
-            list-style-type: none;
-        }
-
-        #site-nav li {
-            margin-bottom: 0.6em;
-        }
-
-        #site-nav li a {
-            color: #718096;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        #site-nav li a:hover {
-            color: #667eea;
-            padding-left: 5px;
-        }
-
-        #site-nav .social {
-            display: flex;
-            gap: 10px;
-            margin-top: 0.8em;
-        }
-
-        #site-nav .social li {
-            margin: 0;
-            width: 36px;
-            height: 36px;
-        }
-
-        #site-nav .social li a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        #site-nav .social li a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(245, 215, 227, 0.3);
-            padding: 0;
-        }
-
-        #site-nav .social li i {
-            color: #1a202c;
-            font-size: 16px;
-        }
-
-        .hero {
-            padding: 100px 25px 30px;
-        }
-
-        .welcome-section {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .welcome-header {
-            text-align: center;
-            margin-bottom: 35px;
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 20px;
         }
 
         .welcome-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 38px;
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .welcome-header p {
-            font-size: 14px;
-            color: #4a5568;
-            font-weight: 300;
-        }
-
-        .quotes-section {
-            background: #ffffff;
-            padding: 20px 30px;
-            border-radius: 20px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-            margin-bottom: 15px;
-            text-align: center;
+          font-size: 28px;
         }
 
         .quote {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-style: italic;
-            color: #1a202c;
-            margin-bottom: 16px;
-            line-height: 1.6;
+          font-size: 18px;
         }
 
-        .quote-author {
-            font-size: 15px;
-            color: #718096;
-            font-weight: 500;
+        .quotes-section {
+          padding: 30px 25px;
         }
 
         .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 18px;
-            padding: 0 25px 30px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 24px;
-            border-radius: 18px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-icon {
-            font-size: 40px;
-            margin-bottom: 14px;
-        }
-
-        .card:nth-child(1) .card-icon { color: #f5d7e3; }
-        .card:nth-child(2) .card-icon { color: #d4e5f7; }
-        .card:nth-child(3) .card-icon { color: #ffe8d9; }
-        .card:nth-child(4) .card-icon { color: #e0f7f7; }
-        .card:nth-child(5) .card-icon { color: #fef0f5; }
-        .card:nth-child(6) .card-icon { color: #f5d7e3; }
-        .card:nth-child(7) .card-icon { color: #d4e5f7; }
-
-        .card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            color: #1a202c;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .card p {
-            color: #4a5568;
-            font-size: 12px;
-            line-height: 1.6;
-            margin-bottom: 14px;
-            font-weight: 300;
-        }
-
-        .card-button {
-            padding: 10px 24px;
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            color: #1a202c;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .card-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 215, 227, 0.3);
-        }
-
-        .chat-button {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            color: #1a202c;
-            border-radius: 50%;
-            border: none;
-            font-size: 22px;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(245, 215, 227, 0.3);
-            transition: all 0.3s;
-            z-index: 999;
-        }
-
-        .chat-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 28px rgba(245, 215, 227, 0.4);
+          grid-template-columns: 1fr;
+          padding: 0 20px 20px;
         }
 
         .chat-box {
-            position: fixed;
-            bottom: 90px;
-            right: 25px;
-            width: 320px;
-            height: 420px;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            display: none;
-            flex-direction: column;
-            z-index: 998;
-            border: 1px solid rgba(255, 255, 255, 0.9);
+          width: 90%;
+          right: 5%;
         }
 
-        .chat-box.active {
-            display: flex;
+        .auth-buttons {
+          display: none;
         }
 
-        .chat-header {
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            color: #1a202c;
-            padding: 16px;
-            border-radius: 18px 18px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 14px;
+        .nav-right {
+          flex-direction: row-reverse;
         }
-
-        .chat-close {
-            background: none;
-            border: none;
-            color: #1a202c;
-            font-size: 24px;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-        }
-
-        .message {
-            margin-bottom: 12px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            max-width: 80%;
-            font-size: 13px;
-            animation: messageSlide 0.3s ease;
-        }
-
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.bot {
-            background: rgba(245, 215, 227, 0.3);
-            margin-right: auto;
-            color: #1a202c;
-        }
-
-        .message.user {
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            color: #1a202c;
-            margin-left: auto;
-        }
-
-        .chat-input-container {
-            padding: 14px;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 10px 14px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50px;
-            outline: none;
-            font-size: 13px;
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        .chat-send {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #f5d7e3 0%, #d4e5f7 100%);
-            color: #1a202c;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-
-        .chat-send:hover {
-            transform: translateY(-2px);
-        }
-
-        footer {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            padding: 28px;
-            margin-top: 40px;
-            color: #4a5568;
-        }
-
-        footer p {
-            margin: 5px 0;
-            font-size: 13px;
-            font-weight: 300;
-        }
-
-        @media (max-width: 1200px) {
-            #site-nav.is-active {
-                flex-direction: column;
-            }
-
-            #site-nav .col {
-                flex: 0 0 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            .welcome-header h1 {
-                font-size: 28px;
-            }
-
-            .quote {
-                font-size: 18px;
-            }
-
-            .quotes-section {
-                padding: 30px 25px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-                padding: 0 20px 20px;
-            }
-
-            .chat-box {
-                width: 90%;
-                right: 5%;
-            }
-
-            .auth-buttons {
-                display: none;
-            }
-
-            .nav-right {
-                flex-direction: row-reverse;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
-        <defs>
-            <symbol viewBox="0 0 60 60" id="icon-facebook">
-                <path d="M25.8 46.3h6.7V30H37l.6-5.6h-5.1v-2.8c0-1.5.1-2.3 2.2-2.3h2.8v-5.6H33c-5.4 0-7.3 2.7-7.3 7.3v3.4h-3.4V30h3.4v16.3zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30z"/>
-            </symbol>
-            <symbol viewBox="0 0 60 60" id="icon-linkedin">
-                <path d="M46.8 44.1V32.4c0-6.3-3.3-9.2-7.8-9.2-3.6 0-5.2 2-6.1 3.4v-2.9h-6.8c.1 1.9 0 20.4 0 20.4h6.8V32.7c0-.6 0-1.2.2-1.7.5-1.2 1.6-2.5 3.5-2.5 2.5 0 3.4 1.9 3.4 4.6V44l6.8.1zM19 20.9c2.4 0 3.8-1.6 3.8-3.5 0-2-1.5-3.5-3.8-3.5s-3.8 1.5-3.8 3.5 1.4 3.5 3.8 3.5zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30zm-7.6-15.9V23.7h-6.8v20.4h6.8z"/>
-            </symbol>
-            <symbol viewBox="0 0 60 60" id="icon-twitter">
-                <path d="M34.2 18.3c-2.6 1-4.3 3.4-4.1 6.1l.1 1-1-.1c-3.8-.5-7.1-2.1-10-4.9L17.7 19l-.4 1c-.8 2.3-.3 4.7 1.3 6.3.8.9.6 1-.8.5-.5-.2-.9-.3-1-.2-.1.1.4 2.1.8 2.8.5 1.1 1.7 2.1 2.9 2.7l1 .5h-1.2c-1.2 0-1.2 0-1.1.5.4 1.4 2.1 2.8 3.9 3.5l1.3.4-1.1.7c-1.7 1-3.6 1.5-5.6 1.6-.9 0-1.7.1-1.7.2 0 .2 2.6 1.4 4 1.9 4.5 1.4 9.8.8 13.7-1.6 2.8-1.7 5.7-5 7-8.2.7-1.7 1.4-4.9 1.4-6.4 0-1 .1-1.1 1.2-2.3.7-.7 1.3-1.4 1.5-1.6.2-.4.2-.4-.9 0-1.8.6-2 .6-1.2-.4.6-.7 1.4-1.9 1.4-2.3 0-.1-.3 0-.7.2-.4.2-1.2.5-1.8.7l-1.1.4-1-.7c-.6-.4-1.4-.8-1.8-.9-.9-.4-2.6-.4-3.5 0zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30z"/>
-            </symbol>
-        </defs>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <defs>
+        <symbol viewBox="0 0 60 60" id="icon-facebook">
+          <path
+            d="M25.8 46.3h6.7V30H37l.6-5.6h-5.1v-2.8c0-1.5.1-2.3 2.2-2.3h2.8v-5.6H33c-5.4 0-7.3 2.7-7.3 7.3v3.4h-3.4V30h3.4v16.3zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30z"
+          />
+        </symbol>
+        <symbol viewBox="0 0 60 60" id="icon-linkedin">
+          <path
+            d="M46.8 44.1V32.4c0-6.3-3.3-9.2-7.8-9.2-3.6 0-5.2 2-6.1 3.4v-2.9h-6.8c.1 1.9 0 20.4 0 20.4h6.8V32.7c0-.6 0-1.2.2-1.7.5-1.2 1.6-2.5 3.5-2.5 2.5 0 3.4 1.9 3.4 4.6V44l6.8.1zM19 20.9c2.4 0 3.8-1.6 3.8-3.5 0-2-1.5-3.5-3.8-3.5s-3.8 1.5-3.8 3.5 1.4 3.5 3.8 3.5zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30zm-7.6-15.9V23.7h-6.8v20.4h6.8z"
+          />
+        </symbol>
+        <symbol viewBox="0 0 60 60" id="icon-twitter">
+          <path
+            d="M34.2 18.3c-2.6 1-4.3 3.4-4.1 6.1l.1 1-1-.1c-3.8-.5-7.1-2.1-10-4.9L17.7 19l-.4 1c-.8 2.3-.3 4.7 1.3 6.3.8.9.6 1-.8.5-.5-.2-.9-.3-1-.2-.1.1.4 2.1.8 2.8.5 1.1 1.7 2.1 2.9 2.7l1 .5h-1.2c-1.2 0-1.2 0-1.1.5.4 1.4 2.1 2.8 3.9 3.5l1.3.4-1.1.7c-1.7 1-3.6 1.5-5.6 1.6-.9 0-1.7.1-1.7.2 0 .2 2.6 1.4 4 1.9 4.5 1.4 9.8.8 13.7-1.6 2.8-1.7 5.7-5 7-8.2.7-1.7 1.4-4.9 1.4-6.4 0-1 .1-1.1 1.2-2.3.7-.7 1.3-1.4 1.5-1.6.2-.4.2-.4-.9 0-1.8.6-2 .6-1.2-.4.6-.7 1.4-1.9 1.4-2.3 0-.1-.3 0-.7.2-.4.2-1.2.5-1.8.7l-1.1.4-1-.7c-.6-.4-1.4-.8-1.8-.9-.9-.4-2.6-.4-3.5 0zM30 60C13.4 60 0 46.6 0 30S13.4 0 30 0s30 13.4 30 30-13.4 30-30 30z"
+          />
+        </symbol>
+      </defs>
     </svg>
 
     <header id="masthead" role="banner">
-        <div class="container">
-            <div class="nav-header">
-                <a href="#" class="logo">
-                    <span class="logo-icon">❤️</span>
-                    <span>MindBody Tracker</span>
-                </a>
-                
-                <div class="nav-right">
-                    <div class="auth-buttons">
-                        <button class="auth-btn" onclick="alert('Login page')">Login</button>
-                        <button class="auth-btn" onclick="alert('Sign Up page')">Sign Up</button>
-                        <div class="profile-pic">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
-                    
-                    <button class="hamburger" type="button">
-                        <span class="hamburger-box">
-                            <span class="hamburger-inner"></span>
-                        </span>
-                        <span class="hamburger-label">Menu</span>
-                    </button>
-                </div>
+      <div class="container">
+        <div class="nav-header">
+          <a href="#" class="logo">
+            <span class="logo-icon">❤️</span>
+            <span>MindBody Tracker</span>
+          </a>
+
+          <div class="nav-right">
+            <div class="auth-buttons">
+              <a href="login.html"><button class="auth-btn">Login</button></a>
+              <a href="sign_up.html"
+                ><button class="auth-btn">Sign Up</button></a
+              >
+              <div class="profile-pic">
+                <i class="fas fa-user"></i>
+              </div>
             </div>
-            
-            <nav id="site-nav" role="navigation">
-                <div class="col">
-                    <h4>Features</h4>
-                    <ul>
-                        <li><a href="#">Health Tracking</a></li>
-                        <li><a href="#">Mental Wellness</a></li>
-                        <li><a href="#">Live Sessions</a></li>
-                        <li><a href="#">Progress Insights</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">How It Works</a></li>
-                        <li><a href="#">Testimonials</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Success Stories</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Mission</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Connect</h4>
-                    <ul class="social">
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
+
+            <button class="hamburger" type="button">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+              <span class="hamburger-label">Menu</span>
+            </button>
+          </div>
         </div>
+
+        <nav id="site-nav" role="navigation">
+          <div class="col">
+            <h4>Features</h4>
+            <ul>
+              <li><a href="#">Health Tracking</a></li>
+              <li><a href="#">Mental Wellness</a></li>
+              <li><a href="#">Live Sessions</a></li>
+              <li><a href="#">Progress Insights</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">How It Works</a></li>
+              <li><a href="#">Testimonials</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Success Stories</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Our Mission</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4>Connect</h4>
+            <ul class="social">
+              <li>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     </header>
 
     <section class="hero">
-        <div class="container">
-            <div class="welcome-section">
-                <div class="welcome-header">
-                    <h1>Welcome to Your Wellness Journey</h1>
-                    <p>Begin your path to better health and inner peace</p>
-                </div>
+      <div class="container">
+        <div class="welcome-section">
+          <div class="welcome-header">
+            <h1>Welcome to Your Wellness Journey</h1>
+            <p>Begin your path to better health and inner peace</p>
+          </div>
 
-                <div class="quotes-section">
-                    <p class="quote" id="motivational-quote">"Peace comes from within. Do not seek it without."</p>
-                    <p class="quote-author" id="quote-author">— Buddha</p>
-                </div>
-            </div>
+          <div class="quotes-section">
+            <p class="quote" id="motivational-quote">
+              "Peace comes from within. Do not seek it without."
+            </p>
+            <p class="quote-author" id="quote-author">— Buddha</p>
+          </div>
         </div>
+      </div>
     </section>
 
     <section class="features">
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-clipboard-check"></i></div>
-            <h3>Mood Quiz</h3>
-            <p>Discover your current emotional state and get personalized recommendations</p>
-            <button class="card-button" onclick="alert('Mood Quiz feature')">Take Quiz</button>
-        </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-clipboard-check"></i></div>
+        <h3>Mood Quiz</h3>
+        <p>
+          Discover your current emotional state and get personalized
+          recommendations
+        </p>
+        <button class="card-button" onclick="alert('Mood Quiz feature')">
+          Take Quiz
+        </button>
+      </div>
 
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-spa"></i></div>
-            <h3>Exercises</h3>
-            <p>Guided breathing, yoga, meditation practices, and positive affirmations</p>
-            <button class="card-button" onclick="alert('Exercises feature')">Start Practice</button>
-        </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-spa"></i></div>
+        <h3>Exercises</h3>
+        <p>
+          Guided breathing, yoga, meditation practices, and positive
+          affirmations
+        </p>
+        <button class="card-button" onclick="alert('Exercises feature')">
+          Start Practice
+        </button>
+      </div>
 
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-video"></i></div>
-            <h3>Live Sessions</h3>
-            <p>Join group sessions or book one-on-one with wellness experts</p>
-            <button class="card-button" onclick="alert('Live Sessions')">Book Session</button>
-        </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-video"></i></div>
+        <h3>Live Sessions</h3>
+        <p>Join group sessions or book one-on-one with wellness experts</p>
+        <button class="card-button" onclick="alert('Live Sessions')">
+          Book Session
+        </button>
+      </div>
 
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-book-open"></i></div>
-            <h3>Journals</h3>
-            <p>Share your wellness journey and inspire others in our community</p>
-            <button class="card-button" onclick="alert('Journals feature')">Write Story</button>
-        </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-book-open"></i></div>
+        <h3>Journals</h3>
+        <p>Share your wellness journey and inspire others in our community</p>
+        <button class="card-button" onclick="alert('Journals feature')">
+          Write Story
+        </button>
+      </div>
 
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-music"></i></div>
-            <h3>Calming Music</h3>
-            <p>Listen to soothing music for relaxation and self-healing</p>
-            <button class="card-button" onclick="alert('Music feature')">Listen Now</button>
-        </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-music"></i></div>
+        <h3>Calming Music</h3>
+        <p>Listen to soothing music for relaxation and self-healing</p>
+        <button class="card-button" onclick="alert('Music feature')">
+          Listen Now
+        </button>
+      </div>
 
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-magnifying-glass"></i></div>
-            <h3>Explore</h3>
-            <p>Discover new wellness techniques and resources</p>
-            <button class="card-button" onclick="alert('Explore feature')">Explore</button>
-        </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-magnifying-glass"></i></div>
+        <h3>Explore</h3>
+        <p>Discover new wellness techniques and resources</p>
+        <button class="card-button" onclick="alert('Explore feature')">
+          Explore
+        </button>
+      </div>
 
-        <!-- existing features cards end here -->
-        <div class="card">
-            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-            <h3>Progress</h3>
-            <p>Track your daily wellness progress and achievements</p>
-            <button class="card-button" onclick="alert('Progress feature')">View Progress</button>
-        </div>
+      <!-- existing features cards end here -->
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>Progress</h3>
+        <p>Track your daily wellness progress and achievements</p>
+        <button class="card-button" onclick="alert('Progress feature')">
+          View Progress
+        </button>
+      </div>
     </section>
 
     <!-- Chatbot Section -->
-    <button class="chat-button" id="chat-toggle"><i class="fas fa-comment-dots"></i></button>
+    <button class="chat-button" id="chat-toggle">
+      <i class="fas fa-comment-dots"></i>
+    </button>
 
     <div class="chat-box" id="chat-box">
-        <div class="chat-header">
-            <span>MindBody Assistant</span>
-            <button class="chat-close" id="chat-close">&times;</button>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="message bot">Hi there! 🌸 How are you feeling today?</div>
-        </div>
-        <div class="chat-input-container">
-            <input type="text" id="chat-input" class="chat-input" placeholder="Type your message..." />
-            <button class="chat-send" id="chat-send">Send</button>
-        </div>
+      <div class="chat-header">
+        <span>MindBody Assistant</span>
+        <button class="chat-close" id="chat-close">&times;</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="message bot">Hi there! 🌸 How are you feeling today?</div>
+      </div>
+      <div class="chat-input-container">
+        <input
+          type="text"
+          id="chat-input"
+          class="chat-input"
+          placeholder="Type your message..."
+        />
+        <button class="chat-send" id="chat-send">Send</button>
+      </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 MindBody Tracker. All Rights Reserved.</p>
-        <p>Designed with ❤️ for your wellness journey.</p>
+      <p>&copy; 2025 MindBody Tracker. All Rights Reserved.</p>
+      <p>Designed with ❤️ for your wellness journey.</p>
     </footer>
 
     <script>
-  // Navbar toggle (same as before)
-  const hamburger = document.querySelector('.hamburger');
-  const masthead = document.querySelector('#masthead');
-  const siteNav = document.querySelector('#site-nav');
+      // Navbar toggle (same as before)
+      const hamburger = document.querySelector(".hamburger");
+      const masthead = document.querySelector("#masthead");
+      const siteNav = document.querySelector("#site-nav");
 
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('is-active');
-    masthead.classList.toggle('is-active');
-    siteNav.classList.toggle('is-active');
-  });
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("is-active");
+        masthead.classList.toggle("is-active");
+        siteNav.classList.toggle("is-active");
+      });
 
-  // Chatbot logic
-  const chatToggle = document.getElementById('chat-toggle');
-  const chatBox = document.getElementById('chat-box');
-  const chatClose = document.getElementById('chat-close');
-  const chatMessages = document.getElementById('chat-messages');
-  const chatInput = document.getElementById('chat-input');
-  const chatSend = document.getElementById('chat-send');
+      // Chatbot logic
+      const chatToggle = document.getElementById("chat-toggle");
+      const chatBox = document.getElementById("chat-box");
+      const chatClose = document.getElementById("chat-close");
+      const chatMessages = document.getElementById("chat-messages");
+      const chatInput = document.getElementById("chat-input");
+      const chatSend = document.getElementById("chat-send");
 
-  chatToggle.addEventListener('click', () => {
-    chatBox.classList.add('active');
-  });
+      chatToggle.addEventListener("click", () => {
+        chatBox.classList.add("active");
+      });
 
-  chatClose.addEventListener('click', () => {
-    chatBox.classList.remove('active');
-  });
+      chatClose.addEventListener("click", () => {
+        chatBox.classList.remove("active");
+      });
 
-  chatSend.addEventListener('click', sendMessage);
-  chatInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') sendMessage();
-  });
+      chatSend.addEventListener("click", sendMessage);
+      chatInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") sendMessage();
+      });
 
-  // --- NEW: simple state to avoid repeated "help" reply
-  let lastBotMessage = '';
-  const helpMessages = [
-    'Here to help 🌿 — try typing: "breathing", "music", "affirmations", or "journal".',
-    'Need ideas? Try: "mood quiz", "yoga flow", "5-min meditation", or "sleep tips".',
-    'You can say: "grounding exercise", "stress relief", "gratitude prompt", or "daily check-in".'
-  ];
-  let helpIndex = 0;
+      // --- NEW: simple state to avoid repeated "help" reply
+      let lastBotMessage = "";
+      const helpMessages = [
+        'Here to help 🌿 — try typing: "breathing", "music", "affirmations", or "journal".',
+        'Need ideas? Try: "mood quiz", "yoga flow", "5-min meditation", or "sleep tips".',
+        'You can say: "grounding exercise", "stress relief", "gratitude prompt", or "daily check-in".',
+      ];
+      let helpIndex = 0;
 
-  function sendMessage() {
-    const userText = chatInput.value.trim();
-    if (!userText) return;
+      function sendMessage() {
+        const userText = chatInput.value.trim();
+        if (!userText) return;
 
-    appendMessage(userText, 'user');
-    chatInput.value = '';
+        appendMessage(userText, "user");
+        chatInput.value = "";
 
-    setTimeout(() => {
-      let botReply = getBotReply(userText.toLowerCase());
+        setTimeout(() => {
+          let botReply = getBotReply(userText.toLowerCase());
 
-      // If bot is about to repeat the exact same thing, rotate help tips instead
-      if (botReply.toLowerCase().includes('help') || userText.toLowerCase() === 'help') {
-        botReply = nextHelpMessage();
-      } else if (botReply === lastBotMessage) {
-        // fallback: nudge to a different suggestion if duplicate happens
-        botReply = 'Got it 💡 — try "breathing" for a 1-minute calm, or "music" for soothing sounds.';
+          // If bot is about to repeat the exact same thing, rotate help tips instead
+          if (
+            botReply.toLowerCase().includes("help") ||
+            userText.toLowerCase() === "help"
+          ) {
+            botReply = nextHelpMessage();
+          } else if (botReply === lastBotMessage) {
+            // fallback: nudge to a different suggestion if duplicate happens
+            botReply =
+              'Got it 💡 — try "breathing" for a 1-minute calm, or "music" for soothing sounds.';
+          }
+
+          lastBotMessage = botReply;
+          appendMessage(botReply, "bot");
+        }, 500);
       }
 
-      lastBotMessage = botReply;
-      appendMessage(botReply, 'bot');
-    }, 500);
-  }
+      function appendMessage(text, sender) {
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("message", sender);
+        msgDiv.textContent = text;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
 
-  function appendMessage(text, sender) {
-    const msgDiv = document.createElement('div');
-    msgDiv.classList.add('message', sender);
-    msgDiv.textContent = text;
-    chatMessages.appendChild(msgDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
+      function nextHelpMessage() {
+        const msg = helpMessages[helpIndex];
+        helpIndex = (helpIndex + 1) % helpMessages.length;
+        return msg;
+      }
 
-  function nextHelpMessage() {
-    const msg = helpMessages[helpIndex];
-    helpIndex = (helpIndex + 1) % helpMessages.length;
-    return msg;
-  }
+      function getBotReply(input) {
+        // explicit help intent => rotate messages
+        if (input === "help" || input.includes("help")) {
+          return nextHelpMessage();
+        }
 
-  function getBotReply(input) {
-    // explicit help intent => rotate messages
-    if (input === 'help' || input.includes('help')) {
-      return nextHelpMessage();
-    }
+        if (/(hello|hi|hey)\b/.test(input)) {
+          return 'Hello! 🌼 How can I support your wellness today? Type "help" for ideas.';
+        }
+        if (/(sad|down|tired|low)/.test(input)) {
+          return 'I’m here for you 😔. Try a 1-minute breathing: inhale 4s, hold 4s, exhale 6s. Type "breathing".';
+        }
+        if (/(happy|good|great|fine)/.test(input)) {
+          return 'Love that energy! 🌈 Keep it flowing—try "affirmations" for a quick boost.';
+        }
+        if (/(stress|anxiety|panic)/.test(input)) {
+          return 'Let’s slow it down 🌿. Want a grounding exercise? Type "grounding".';
+        }
 
-    if (/(hello|hi|hey)\b/.test(input)) {
-      return 'Hello! 🌼 How can I support your wellness today? Type "help" for ideas.';
-    }
-    if (/(sad|down|tired|low)/.test(input)) {
-      return 'I’m here for you 😔. Try a 1-minute breathing: inhale 4s, hold 4s, exhale 6s. Type "breathing".';
-    }
-    if (/(happy|good|great|fine)/.test(input)) {
-      return 'Love that energy! 🌈 Keep it flowing—try "affirmations" for a quick boost.';
-    }
-    if (/(stress|anxiety|panic)/.test(input)) {
-      return 'Let’s slow it down 🌿. Want a grounding exercise? Type "grounding".';
-    }
+        // Quick commands
+        if (/breath|breathing/.test(input)) {
+          return "🫁 Box Breathing: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s — repeat 4 times.";
+        }
+        if (/music|song|soothing/.test(input)) {
+          return "🎵 Calming tip: pick slow tempo, no lyrics. Try ocean waves or rain sounds for 5–10 mins.";
+        }
+        if (/affirmation/.test(input)) {
+          return '✨ Repeat 3x: "I am safe. I am enough. I can handle this moment."';
+        }
+        if (/journal|journaling/.test(input)) {
+          return '📓 Journal prompt: "What felt heavy today? What small kindness can I offer myself?"';
+        }
+        if (/quiz|mood/.test(input)) {
+          return "🧭 Quick mood check-in: 1–10, how are you feeling? What would make +1 better?";
+        }
+        if (/grounding/.test(input)) {
+          return "🌱 5-4-3-2-1 Grounding: 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste.";
+        }
 
-    // Quick commands
-    if (/breath|breathing/.test(input)) {
-      return '🫁 Box Breathing: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s — repeat 4 times.';
-    }
-    if (/music|song|soothing/.test(input)) {
-      return '🎵 Calming tip: pick slow tempo, no lyrics. Try ocean waves or rain sounds for 5–10 mins.';
-    }
-    if (/affirmation/.test(input)) {
-      return '✨ Repeat 3x: "I am safe. I am enough. I can handle this moment."';
-    }
-    if (/journal|journaling/.test(input)) {
-      return '📓 Journal prompt: "What felt heavy today? What small kindness can I offer myself?"';
-    }
-    if (/quiz|mood/.test(input)) {
-      return '🧭 Quick mood check-in: 1–10, how are you feeling? What would make +1 better?';
-    }
-    if (/grounding/.test(input)) {
-      return '🌱 5-4-3-2-1 Grounding: 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste.';
-    }
+        // default
+        return 'I’m here for you 💕. Type "help" for ideas like breathing, music, affirmations, or journal prompts.';
+      }
 
-    // default
-    return 'I’m here for you 💕. Type "help" for ideas like breathing, music, affirmations, or journal prompts.';
-  }
+      const quotes = [
+        {
+          text: "Peace comes from within. Do not seek it without.",
+          author: "Buddha",
+        },
+        {
+          text: "The present moment is filled with joy and happiness. If you are attentive, you will see it.",
+          author: "Thich Nhat Hanh",
+        },
+        {
+          text: "You are the sky. Everything else is just the weather.",
+          author: "Pema Chödrön",
+        },
+        {
+          text: "Mindfulness isn't difficult, we just need to remember to do it.",
+          author: "Sharon Salzberg",
+        },
+        {
+          text: "In today's rush, we all think too much, seek too much, want too much and forget about the joy of just being.",
+          author: "Eckhart Tolle",
+        },
+        {
+          text: "Breathe. Let go. And remind yourself that this very moment is the only one you know you have for sure.",
+          author: "Oprah Winfrey",
+        },
+        {
+          text: "The little things? The little moments? They aren't little.",
+          author: "Jon Kabat-Zinn",
+        },
+        {
+          text: "Meditation is not evasion; it is a serene encounter with reality.",
+          author: "Thich Nhat Hanh",
+        },
+        {
+          text: "Your calm mind is the ultimate weapon against your challenges.",
+          author: "Bryant McGill",
+        },
+        {
+          text: "Be where you are, otherwise you will miss your life.",
+          author: "Buddha",
+        },
+      ];
 
-  const quotes = [
-    { text: "Peace comes from within. Do not seek it without.", author: "Buddha" },
-    { text: "The present moment is filled with joy and happiness. If you are attentive, you will see it.", author: "Thich Nhat Hanh" },
-    { text: "You are the sky. Everything else is just the weather.", author: "Pema Chödrön" },
-    { text: "Mindfulness isn't difficult, we just need to remember to do it.", author: "Sharon Salzberg" },
-    { text: "In today's rush, we all think too much, seek too much, want too much and forget about the joy of just being.", author: "Eckhart Tolle" },
-    { text: "Breathe. Let go. And remind yourself that this very moment is the only one you know you have for sure.", author: "Oprah Winfrey" },
-    { text: "The little things? The little moments? They aren't little.", author: "Jon Kabat-Zinn" },
-    { text: "Meditation is not evasion; it is a serene encounter with reality.", author: "Thich Nhat Hanh" },
-    { text: "Your calm mind is the ultimate weapon against your challenges.", author: "Bryant McGill" },
-    { text: "Be where you are, otherwise you will miss your life.", author: "Buddha" }
-];
+      function displayRandomQuote() {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById(
+          "motivational-quote"
+        ).textContent = `"${randomQuote.text}"`;
+        document.getElementById(
+          "quote-author"
+        ).textContent = `— ${randomQuote.author}`;
+      }
 
-function displayRandomQuote() {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById('motivational-quote').textContent = `"${randomQuote.text}"`;
-    document.getElementById('quote-author').textContent = `— ${randomQuote.author}`;
-}
-
-displayRandomQuote();
-</script>
-
-</body>
+      displayRandomQuote();
+    </script>
+  </body>
 </html>
