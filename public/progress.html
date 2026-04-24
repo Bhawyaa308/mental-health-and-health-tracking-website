@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress — MindBody Tracker</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: linear-gradient(
+          145deg,
+          #fff8f2 0%,
+          #ffeee3 25%,
+          #e8f7f7 60%,
+          #fdf0f7 100%
+        );
+        --white: #ffffff;
+        --off-white: #fafaf9;
+        --card-shadow:
+          0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+        --card-shadow-hover:
+          0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+        --pink: #f2728e;
+        --peach: #f5956b;
+        --teal: #4dbdbd;
+        --violet: #9b7fe8;
+        --gold: #e8a44a;
+        --green: #5dba8c;
+        --text-dark: #1a1523;
+        --text-mid: #5c5466;
+        --text-light: #9c93a8;
+        --border: rgba(0, 0, 0, 0.055);
+        --radius: 20px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--bg);
+        background-attachment: fixed;
+        font-family: "DM Sans", sans-serif;
+        color: var(--text-dark);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* HEADER */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        height: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        background: rgba(255, 252, 249, 0.82);
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      .brand-heart {
+        font-size: 1.2rem;
+        animation: pulse 2.8s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.14);
+        }
+      }
+
+      .menu-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 30px;
+        padding: 7px 16px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.74rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-mid);
+        cursor: pointer;
+        box-shadow: var(--card-shadow);
+        transition:
+          box-shadow 0.2s,
+          transform 0.2s;
+      }
+      .menu-btn:hover {
+        box-shadow: var(--card-shadow-hover);
+        transform: translateY(-1px);
+      }
+      .menu-dots {
+        display: flex;
+        gap: 3px;
+      }
+      .menu-dots span {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--text-mid);
+      }
+
+      /* LAYOUT */
+      .page {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 44px 22px 90px;
+      }
+
+      /* HERO */
+      .hero {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 32px 36px;
+        margin-bottom: 20px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        animation: slideDown 0.48s cubic-bezier(0.22, 0.68, 0, 0.99) both;
+      }
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .hero-text {
+        flex: 1;
+      }
+      .hero-eyebrow {
+        font-size: 0.71rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--pink);
+        margin-bottom: 6px;
+      }
+      .hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.9rem, 4vw, 2.6rem);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .hero-sub {
+        font-size: 0.9rem;
+        color: var(--text-mid);
+        font-weight: 400;
+        line-height: 1.6;
+      }
+      .hero-badge {
+        flex-shrink: 0;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ffd6e0, #c8ecec);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.1rem;
+        box-shadow: 0 4px 20px rgba(242, 114, 142, 0.2);
+      }
+
+      /* STAT ROW */
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 38px;
+        animation: fadeUp 0.5s 0.1s cubic-bezier(0.22, 0.68, 0, 0.99) both;
+      }
+      .stat-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 22px 20px;
+        border: 1px solid var(--border);
+        box-shadow: var(--card-shadow);
+        transition:
+          box-shadow 0.22s,
+          transform 0.22s;
+      }
+      .stat-card:hover {
+        box-shadow: var(--card-shadow-hover);
+        transform: translateY(-3px);
+      }
+      .stat-icon {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .stat-value {
+        font-family: "Playfair Display", serif;
+        font-size: 1.85rem;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        color: var(--text-dark);
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .stat-label {
+        font-size: 0.77rem;
+        font-weight: 500;
+        color: var(--text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      /* SECTION */
+      .section {
+        margin-bottom: 44px;
+      }
+      .section-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .section-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-icon-wrap {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+      }
+      .icon-journal {
+        background: linear-gradient(135deg, #ffdde8, #ffefd9);
+      }
+      .icon-mood {
+        background: linear-gradient(135deg, #ddefff, #e4deff);
+      }
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .see-all {
+        font-size: 0.77rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        color: var(--text-light);
+        text-transform: uppercase;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .see-all:hover {
+        color: var(--pink);
+      }
+
+      /* ENTRY LIST */
+      .entry-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      /* ENTRY CARD */
+      .entry-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition:
+          box-shadow 0.25s cubic-bezier(0.22, 0.68, 0, 0.99),
+          transform 0.25s;
+        animation: fadeUp 0.45s ease both;
+      }
+      .entry-card:hover {
+        box-shadow: var(--card-shadow-hover);
+        transform: translateY(-3px);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .entry-card:nth-child(1) {
+        animation-delay: 0.04s;
+      }
+      .entry-card:nth-child(2) {
+        animation-delay: 0.11s;
+      }
+      .entry-card:nth-child(3) {
+        animation-delay: 0.18s;
+      }
+      .entry-card:nth-child(4) {
+        animation-delay: 0.25s;
+      }
+      .entry-card:nth-child(5) {
+        animation-delay: 0.32s;
+      }
+
+      .card-accent {
+        height: 4px;
+        width: 100%;
+      }
+
+      .card-inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 22px 26px 18px;
+      }
+
+      .num-badge {
+        flex-shrink: 0;
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Playfair Display", serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        background: linear-gradient(135deg, #f5d7e3, #d4e5f7);
+        color: #7a5070;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 8px rgba(200, 140, 170, 0.15);
+      }
+
+      .card-body-wrap {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .card-top-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+      }
+      .card-date-chip {
+        flex-shrink: 0;
+        font-size: 0.71rem;
+        font-weight: 500;
+        color: var(--text-light);
+        background: var(--off-white);
+        padding: 3px 10px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        white-space: nowrap;
+      }
+
+      .card-text {
+        font-size: 0.875rem;
+        color: var(--text-mid);
+        line-height: 1.68;
+        font-weight: 400;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 14px;
+      }
+
+      /* DATA ROW — chips */
+      .data-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 11px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border: 1px solid transparent;
+      }
+      .chip-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .chip-score {
+        background: #fff3f7;
+        color: #d05080;
+        border-color: #fddae5;
+      }
+      .chip-mood {
+        background: #f0f7ff;
+        color: #3a80c8;
+        border-color: #d6eaff;
+      }
+      .chip-word {
+        background: #f4f0ff;
+        color: #7254c8;
+        border-color: #ddd4f8;
+      }
+      .chip-length {
+        background: #f0faf5;
+        color: #3a9068;
+        border-color: #c8ecd8;
+      }
+      .chip-tag {
+        background: #fff8f0;
+        color: #b06830;
+        border-color: #fce4c4;
+      }
+      .chip-time {
+        background: #f6f6f6;
+        color: #888;
+        border-color: #eaeaea;
+      }
+
+      /* SCORE BAR */
+      .score-bar-wrap {
+        margin-bottom: 14px;
+      }
+      .score-bar-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .score-bar-label span {
+        font-size: 0.77rem;
+        font-weight: 500;
+        color: var(--text-light);
+      }
+      .score-bar-label strong {
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+      .score-track {
+        height: 6px;
+        width: 100%;
+        background: #f0eef5;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .score-fill {
+        height: 100%;
+        border-radius: 10px;
+        transition: width 0.8s cubic-bezier(0.22, 0.68, 0, 0.99);
+      }
+
+      /* DIVIDER */
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(200, 160, 190, 0.18),
+          rgba(140, 200, 210, 0.18),
+          transparent
+        );
+        margin: 0 26px;
+      }
+
+      /* CARD FOOTER */
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 11px 26px 14px;
+      }
+      .card-footer-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .avatar {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f5d7e3, #d4e5f7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #7a5070;
+      }
+      .card-footer-user {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--text-light);
+      }
+      .card-footer-right {
+        font-size: 0.72rem;
+        color: var(--text-light);
+      }
+
+      /* EMPTY */
+      .empty-state {
+        background: var(--white);
+        border: 1.5px dashed rgba(180, 150, 170, 0.25);
+        border-radius: var(--radius);
+        padding: 52px 24px;
+        text-align: center;
+      }
+      .empty-state .e-icon {
+        font-size: 2.8rem;
+        opacity: 0.45;
+        margin-bottom: 14px;
+      }
+      .empty-state p {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        font-style: italic;
+      }
+
+      /* SKELETON */
+      .skeleton {
+        background: linear-gradient(
+          90deg,
+          #f5f3f8 25%,
+          #ede9f4 50%,
+          #f5f3f8 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+        border-radius: 8px;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      .sk-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px 26px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 12px;
+        display: flex;
+        gap: 18px;
+      }
+      .sk-badge {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+        flex-shrink: 0;
+      }
+      .sk-lines {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 4px;
+      }
+      .sk-line {
+        height: 13px;
+      }
+
+      @media (max-width: 580px) {
+        header {
+          padding: 0 16px;
+        }
+        .page {
+          padding: 28px 14px 70px;
+        }
+        .hero {
+          padding: 22px 20px;
+        }
+        .hero-badge {
+          display: none;
+        }
+        .stat-row {
+          gap: 10px;
+        }
+        .stat-card {
+          padding: 16px 14px;
+        }
+        .stat-value {
+          font-size: 1.5rem;
+        }
+        .card-inner {
+          padding: 18px 18px 14px;
+          gap: 14px;
+        }
+        .card-footer {
+          padding: 10px 18px 12px;
+        }
+        .divider {
+          margin: 0 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <span class="brand-heart">❤️</span>
+        MindBody Tracker
+      </div>
+      <button class="menu-btn">
+        <div class="menu-dots"><span></span><span></span><span></span></div>
+        Menu
+      </button>
+    </header>
+
+    <main class="page">
+      <div class="hero">
+        <div class="hero-text">
+          <p class="hero-eyebrow">Your Dashboard</p>
+          <h1 class="hero-title">Progress &amp; Insights</h1>
+          <p class="hero-sub">
+            Every entry is a step forward — here's a mindful look at your
+            journey.
+          </p>
+        </div>
+        <div class="hero-badge">🌸</div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <span class="stat-icon">📓</span>
+          <div class="stat-value" id="stat-journals">—</div>
+          <div class="stat-label">Journals</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🧠</span>
+          <div class="stat-value" id="stat-moods">—</div>
+          <div class="stat-label">Mood Logs</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">✨</span>
+          <div class="stat-value" id="stat-avg">—</div>
+          <div class="stat-label">Avg. Mood</div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="section-hd">
+          <div class="section-title-wrap">
+            <div class="section-icon-wrap icon-journal">📓</div>
+            <h2 class="section-title">Your Journals</h2>
+          </div>
+          <button class="see-all">See all →</button>
+        </div>
+        <div class="entry-list" id="journal-list"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-hd">
+          <div class="section-title-wrap">
+            <div class="section-icon-wrap icon-mood">🧠</div>
+            <h2 class="section-title">Mood History</h2>
+          </div>
+          <button class="see-all">See all →</button>
+        </div>
+        <div class="entry-list" id="mood-list"></div>
+      </section>
+    </main>
+
+    <script>
+      const USERNAME = localStorage.getItem("username");
+      function getUser() {
+        const user = localStorage.getItem("username"); // 🔥 IMPORTANT (use localStorage)
+
+        if (!user) {
+          alert("Please login first");
+          window.location.href = "login.html";
+        }
+
+        return user;
+      }
+
+      const ACCENTS = [
+        "linear-gradient(90deg,#f2728e,#f5956b)",
+        "linear-gradient(90deg,#4dbdbd,#9b7fe8)",
+        "linear-gradient(90deg,#e8a44a,#f2728e)",
+        "linear-gradient(90deg,#5dba8c,#4dbdbd)",
+        "linear-gradient(90deg,#9b7fe8,#f2728e)",
+      ];
+
+      const SCORE_COLORS = [
+        "#f2728e",
+        "#f5956b",
+        "#e8a44a",
+        "#5dba8c",
+        "#4dbdbd",
+        "#9b7fe8",
+      ];
+
+      function pad(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function formatDate(raw) {
+        if (!raw) return "";
+        const d = new Date(raw);
+        if (isNaN(d)) return raw;
+        return (
+          d.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }) +
+          ", " +
+          d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+        );
+      }
+
+      function shortDate(raw) {
+        if (!raw) return "";
+        const d = new Date(raw);
+        if (isNaN(d)) return raw;
+        return d.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      function wordCount(str) {
+        return str ? str.trim().split(/\s+/).filter(Boolean).length : 0;
+      }
+
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function skeletons(id, n = 3) {
+        document.getElementById(id).innerHTML = Array.from(
+          { length: n },
+          () => `
+    <div class="sk-card">
+      <div class="skeleton sk-badge"></div>
+      <div class="sk-lines">
+        <div class="skeleton sk-line" style="width:50%"></div>
+        <div class="skeleton sk-line" style="width:80%"></div>
+        <div class="skeleton sk-line" style="width:65%"></div>
+        <div class="skeleton sk-line" style="width:35%"></div>
+      </div>
+    </div>`,
+        ).join("");
+      }
+
+      function empty(id, msg) {
+        document.getElementById(id).innerHTML = `
+    <div class="empty-state">
+      <div class="e-icon">🌿</div>
+      <p>${msg}</p>
+    </div>`;
+      }
+
+      function renderJournals(list) {
+        document.getElementById("stat-journals").textContent = list.length;
+        if (!list.length)
+          return empty(
+            "journal-list",
+            "No journal entries yet — start writing.",
+          );
+
+        const sorted = [...list].sort(
+          (a, b) =>
+            new Date(b.date || b.createdAt || 0) -
+            new Date(a.date || a.createdAt || 0),
+        );
+        document.getElementById("journal-list").innerHTML = sorted
+          .map((e, i) => {
+            const title = esc(e.mood || e.title || "Journal Entry");
+            const body = esc(e.text || e.content || e.body || "");
+            const wc = wordCount(e.text || e.content || e.body || "");
+            const sDate = shortDate(e.date || e.createdAt);
+            const date = formatDate(e.date || e.createdAt);
+            const acc = ACCENTS[i % ACCENTS.length];
+            const tags = e.tags || [];
+            const depthLabel = wc > 80 ? "Detailed" : wc > 0 ? "Brief" : "";
+            const depthColor = wc > 80 ? "#5dba8c" : "#e8a44a";
+
+            return `
+    <div class="entry-card">
+      <div class="card-accent" style="background:${acc}"></div>
+      <div class="card-inner">
+        <div class="num-badge">${pad(i + 1)}</div>
+        <div class="card-body-wrap">
+          <div class="card-top-row">
+            <div class="card-title">${title}</div>
+            ${sDate ? `<span class="card-date-chip">${sDate}</span>` : ""}
+          </div>
+          ${body ? `<p class="card-text">${body}</p>` : ""}
+          <div class="data-row">
+            ${wc ? `<span class="chip chip-word"><span class="chip-dot" style="background:#9b7fe8"></span>${wc} words</span>` : ""}
+            ${depthLabel ? `<span class="chip chip-length"><span class="chip-dot" style="background:${depthColor}"></span>${depthLabel}</span>` : ""}
+            ${tags.map((t) => `<span class="chip chip-tag">#${esc(t)}</span>`).join("")}
+            ${date ? `<span class="chip chip-time">🕐 ${date}</span>` : ""}
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-footer">
+        <div class="card-footer-left">
+          <div class="avatar">B</div>
+          <span class="card-footer-user">@${getUser()}</span>
+        </div>
+        <span class="card-footer-right">Entry #${pad(i + 1)}</span>
+      </div>
+    </div>`;
+          })
+          .join("");
+      }
+
+      function renderMoods(list) {
+        document.getElementById("stat-moods").textContent = list.length;
+        const scores = list.filter((e) => e.score != null).map((e) => +e.score);
+        const avg = scores.length
+          ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
+          : null;
+        document.getElementById("stat-avg").textContent = avg
+          ? avg + "/10"
+          : "—";
+
+        if (!list.length)
+          return empty("mood-list", "No mood entries yet — start tracking.");
+
+        const sorted = [...list].sort(
+          (a, b) =>
+            new Date(b.date || b.createdAt || 0) -
+            new Date(a.date || a.createdAt || 0),
+        );
+        document.getElementById("mood-list").innerHTML = sorted
+          .map((e, i) => {
+            const mood = esc(e.mood || e.name || "Unknown Mood");
+            const score = e.score ?? e.rating ?? e.value ?? null;
+            const note = esc(e.note || e.notes || e.description || "");
+            const sDate = shortDate(e.date || e.createdAt);
+            const date = formatDate(e.date || e.createdAt);
+            const acc = ACCENTS[(i + 2) % ACCENTS.length];
+            const sc =
+              score != null
+                ? SCORE_COLORS[
+                    Math.min(
+                      Math.floor((score / 10) * SCORE_COLORS.length),
+                      SCORE_COLORS.length - 1,
+                    )
+                  ]
+                : "#ccc";
+            const label =
+              score != null
+                ? score >= 8
+                  ? "Excellent"
+                  : score >= 6
+                    ? "Good"
+                    : score >= 4
+                      ? "Fair"
+                      : "Low"
+                : "";
+            const pct = score != null ? Math.round((score / 10) * 100) : 0;
+
+            return `
+    <div class="entry-card">
+      <div class="card-accent" style="background:${acc}"></div>
+      <div class="card-inner">
+        <div class="num-badge">${pad(i + 1)}</div>
+        <div class="card-body-wrap">
+          <div class="card-top-row">
+            <div class="card-title">${mood}</div>
+            ${sDate ? `<span class="card-date-chip">${sDate}</span>` : ""}
+          </div>
+          ${
+            score != null
+              ? `
+          <div class="score-bar-wrap">
+            <div class="score-bar-label">
+              <span>Mood Score</span>
+              <strong style="color:${sc}">${score}/10 &nbsp;·&nbsp; ${label}</strong>
+            </div>
+            <div class="score-track">
+              <div class="score-fill" style="width:${pct}%;background:${sc}"></div>
+            </div>
+          </div>`
+              : ""
+          }
+          ${note ? `<p class="card-text">${note}</p>` : ""}
+          <div class="data-row">
+            ${score != null ? `<span class="chip chip-score"><span class="chip-dot" style="background:${sc}"></span>${score}/10</span>` : ""}
+            ${label ? `<span class="chip chip-mood"><span class="chip-dot" style="background:#3a80c8"></span>${label}</span>` : ""}
+            ${date ? `<span class="chip chip-time">🕐 ${date}</span>` : ""}
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-footer">
+        <div class="card-footer-left">
+          <div class="avatar">B</div>
+          <span class="card-footer-user">@${USERNAME}</span>
+        </div>
+        <span class="card-footer-right">Log #${pad(i + 1)}</span>
+      </div>
+    </div>`;
+          })
+          .join("");
+      }
+
+      async function go() {
+        skeletons("journal-list");
+        skeletons("mood-list");
+
+        try {
+          const r = await fetch(`http://localhost:3000/journal/${getUser()}`);
+          if (!r.ok) throw new Error("Journal fetch failed");
+          const d = await r.json();
+
+          renderJournals(
+            Array.isArray(d) ? d : d.entries || d.journals || d.data || [],
+          );
+        } catch (e) {
+          console.error("Journal Error:", e);
+          empty("journal-list", "Error loading journals");
+        }
+
+        try {
+          const r = await fetch(`http://localhost:3000/mood/${getUser()}`);
+          if (!r.ok) throw new Error("Mood fetch failed");
+          const d = await r.json();
+
+          renderMoods(
+            Array.isArray(d) ? d : d.entries || d.moods || d.data || [],
+          );
+        } catch (e) {
+          console.error("Mood Error:", e);
+          empty("mood-list", "Error loading moods");
+        }
+      }
+
+      go();
+    </script>
+  </body>
+</html>

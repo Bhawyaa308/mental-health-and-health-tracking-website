@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete Your Payment</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #e6e6fa 0%,
+          #f8e8ee 50%,
+          #ffe4ec 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .payment-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(199, 160, 186, 0.3);
+        max-width: 480px;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .payment-header {
+        background: linear-gradient(135deg, #d8bfd8 0%, #ffb6c1 100%);
+        padding: 30px;
+        text-align: center;
+      }
+
+      .payment-header h1 {
+        color: #4a3347;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .payment-header p {
+        color: #6b5060;
+        font-size: 0.9rem;
+      }
+
+      .amount-display {
+        background: rgba(255, 255, 255, 0.9);
+        margin: -20px 30px 0;
+        border-radius: 16px;
+        padding: 24px;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 8px 24px rgba(199, 160, 186, 0.2);
+      }
+
+      .amount-label {
+        color: #8b7082;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+      }
+
+      .amount-value {
+        color: #4a3347;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      .amount-value::before {
+        content: "₹";
+        font-size: 1.5rem;
+        vertical-align: super;
+        margin-right: 4px;
+      }
+
+      .payment-body {
+        padding: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        color: #5d4954;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-wrapper input {
+        width: 100%;
+        padding: 14px 16px;
+        padding-left: 48px;
+        border: 2px solid #e8d5e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        color: #4a3347;
+        transition: all 0.3s ease;
+        background: #fefcfd;
+      }
+
+      .input-wrapper input:focus {
+        outline: none;
+        border-color: #d8bfd8;
+        box-shadow: 0 0 0 4px rgba(216, 191, 216, 0.2);
+      }
+
+      .input-wrapper input::placeholder {
+        color: #b8a0b0;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #c4a7b8;
+        font-size: 1.1rem;
+      }
+
+      .card-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .card-brands {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .card-brand {
+        width: 40px;
+        height: 26px;
+        background: #f5eef2;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        color: #8b7082;
+        font-weight: 600;
+      }
+
+      .secure-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        background: linear-gradient(135deg, #f8f0f5 0%, #fff5f8 100%);
+        border-radius: 10px;
+        margin: 24px 0;
+      }
+
+      .secure-badge svg {
+        color: #9b7b8e;
+      }
+
+      .secure-badge span {
+        color: #6b5060;
+        font-size: 0.8rem;
+      }
+
+      .pay-button {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #d8bfd8 0%, #ffb6c1 100%);
+        border: none;
+        border-radius: 14px;
+        color: #4a3347;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(216, 191, 216, 0.4);
+      }
+
+      .pay-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(216, 191, 216, 0.5);
+      }
+
+      .pay-button:active {
+        transform: translateY(0);
+      }
+
+      .pay-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .payment-footer {
+        text-align: center;
+        padding: 20px 30px 30px;
+        border-top: 1px solid #f0e6ec;
+      }
+
+      .payment-footer p {
+        color: #a090a0;
+        font-size: 0.75rem;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #8b7082;
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .back-link:hover {
+        color: #5d4954;
+      }
+
+      /* Card type indicator */
+      .card-type {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #9b7b8e;
+        background: #f5eef2;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      /* Loading state */
+      .pay-button.loading {
+        position: relative;
+        color: transparent;
+      }
+
+      .pay-button.loading::after {
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 3px solid rgba(74, 51, 71, 0.3);
+        border-top-color: #4a3347;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      /* Success state */
+      .success-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(232, 213, 224, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .success-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #d8bfd8 0%, #ffb6c1 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        animation: scaleIn 0.5s ease;
+      }
+
+      .success-icon svg {
+        color: #4a3347;
+        width: 40px;
+        height: 40px;
+      }
+
+      .success-overlay h2 {
+        color: #4a3347;
+        margin-bottom: 8px;
+      }
+
+      .success-overlay p {
+        color: #6b5060;
+      }
+
+      @keyframes scaleIn {
+        0% {
+          transform: scale(0);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Order summary */
+      .order-summary {
+        background: #fbf7f9;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+      }
+
+      .order-summary h3 {
+        color: #5d4954;
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+      }
+
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #e8d5e0;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+        padding-top: 12px;
+        font-weight: 600;
+      }
+
+      .order-item span:first-child {
+        color: #6b5060;
+      }
+
+      .order-item span:last-child {
+        color: #4a3347;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="payment-container">
+      <a
+        href="livesessions.html"
+        class="back-link"
+        style="display: block; padding: 20px 30px 0"
+      >
+        <svg
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to Cart
+      </a>
+
+      <div class="payment-header">
+        <h1>Complete Your Payment</h1>
+        <p>Enter your card details below</p>
+      </div>
+
+      <div class="amount-display">
+        <div class="amount-label">Total Amount</div>
+        <div class="amount-value" id="paymentAmount">149.99</div>
+      </div>
+
+      <div class="payment-body">
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div class="order-item">
+            <span>Subtotal</span>
+            <span id="subtotal">₹139.99</span>
+          </div>
+          <div class="order-item">
+            <span>Shipping</span>
+            <span>₹5.00</span>
+          </div>
+          <div class="order-item">
+            <span>Tax</span>
+            <span>₹5.00</span>
+          </div>
+          <div class="order-item">
+            <span>Total</span>
+            <span id="totalAmount">₹149.99</span>
+          </div>
+        </div>
+
+        <form id="paymentForm">
+          <div class="form-group">
+            <label for="cardName">Cardholder Name</label>
+            <div class="input-wrapper">
+              <svg
+                class="input-icon"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <input
+                type="text"
+                id="cardName"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <div class="input-wrapper">
+              <svg
+                class="input-icon"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+              <input
+                type="text"
+                id="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                maxlength="19"
+                required
+              />
+              <span class="card-type" id="cardType"></span>
+            </div>
+            <div class="card-brands">
+              <div class="card-brand">VISA</div>
+              <div class="card-brand">MC</div>
+              <div class="card-brand">AMEX</div>
+              <div class="card-brand">DISC</div>
+            </div>
+          </div>
+
+          <div class="card-row">
+            <div class="form-group">
+              <label for="expiry">Expiry Date</label>
+              <div class="input-wrapper">
+                <svg
+                  class="input-icon"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <input
+                  type="text"
+                  id="expiry"
+                  placeholder="MM/YY"
+                  maxlength="5"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <div class="input-wrapper">
+                <svg
+                  class="input-icon"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <input
+                  type="text"
+                  id="cvv"
+                  placeholder="123"
+                  maxlength="4"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="secure-badge">
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>Your payment is secured with 256-bit SSL encryption</span>
+          </div>
+
+          <button type="submit" class="pay-button" id="payButton">
+            Pay ₹<span id="buttonAmount">149.99</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="payment-footer">
+        <p>
+          By completing this payment, you agree to our Terms of Service and
+          Privacy Policy
+        </p>
+      </div>
+    </div>
+
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-icon">
+        <svg
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          viewBox="0 0 24 24"
+        >
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p>Thank you for your purchase</p>
+    </div>
+
+    <script>
+      const BASE_URL = "http://localhost:3000";
+
+      function getUser() {
+        const user = localStorage.getItem("username");
+
+        console.log("PAYMENT USER =", user); // debug
+
+        if (!user || user === "undefined" || user === "null") {
+          alert("Please login first");
+          window.location.href = "login.html";
+          return "";
+        }
+
+        return user;
+      }
+
+      // Get amount
+      function getAmountFromPreviousPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get("amount");
+
+        if (amount) return parseFloat(amount);
+
+        const storedAmount = sessionStorage.getItem("paymentAmount");
+        if (storedAmount) return parseFloat(storedAmount);
+
+        return 149.99;
+      }
+
+      const paymentAmount = getAmountFromPreviousPage();
+      const subtotal = (paymentAmount - 10).toFixed(2);
+
+      document.getElementById("paymentAmount").textContent =
+        paymentAmount.toFixed(2);
+      document.getElementById("subtotal").textContent = "₹" + subtotal;
+      document.getElementById("totalAmount").textContent =
+        "₹" + paymentAmount.toFixed(2);
+      document.getElementById("buttonAmount").textContent =
+        paymentAmount.toFixed(2);
+
+      // Card formatting
+      const cardNumberInput = document.getElementById("cardNumber");
+      const cardTypeDisplay = document.getElementById("cardType");
+
+      cardNumberInput.addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\s/g, "").replace(/\D/g, "");
+        let formatted = value.match(/.{1,4}/g)?.join(" ") || "";
+        e.target.value = formatted;
+
+        if (value.startsWith("4")) cardTypeDisplay.textContent = "VISA";
+        else if (value.startsWith("5") || value.startsWith("2"))
+          cardTypeDisplay.textContent = "MC";
+        else if (value.startsWith("3")) cardTypeDisplay.textContent = "AMEX";
+        else if (value.startsWith("6")) cardTypeDisplay.textContent = "DISC";
+        else cardTypeDisplay.textContent = "";
+      });
+
+      // Expiry
+      document.getElementById("expiry").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+        if (value.length >= 2) {
+          value = value.substring(0, 2) + "/" + value.substring(2, 4);
+        }
+        e.target.value = value;
+      });
+
+      // CVV
+      document.getElementById("cvv").addEventListener("input", function (e) {
+        e.target.value = e.target.value.replace(/\D/g, "");
+      });
+
+      // Submit
+      const paymentForm = document.getElementById("paymentForm");
+      const payButton = document.getElementById("payButton");
+      const successOverlay = document.getElementById("successOverlay");
+
+      paymentForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        payButton.disabled = true;
+        payButton.textContent = "Processing...";
+
+        try {
+          const res = await fetch(`${BASE_URL}/payment`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: getUser(),
+              sessionName:
+                sessionStorage.getItem("sessionName") || "Wellness Session",
+              amount: paymentAmount,
+              cardName: document.getElementById("cardName").value,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            successOverlay.classList.add("show");
+
+            setTimeout(() => {
+              window.location.href = "livesessions.html";
+            }, 2000);
+          } else {
+            alert(data.error || "Payment Failed");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Payment Failed");
+        }
+
+        payButton.disabled = false;
+        payButton.innerHTML = `Pay ₹<span id="buttonAmount">${paymentAmount.toFixed(2)}</span>`;
+      });
+
+      // Demo fallback
+      if (
+        !sessionStorage.getItem("paymentAmount") &&
+        !new URLSearchParams(window.location.search).get("amount")
+      ) {
+        sessionStorage.setItem("paymentAmount", "149.99");
+      }
+    </script>
+  </body>
+</html>

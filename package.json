@@ -1,0 +1,26 @@
+{
+  "name": "mindfulness",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bhawyaa308/mental-health-and-health-tracking-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bhawyaa308/mental-health-and-health-tracking-website/issues"
+  },
+  "homepage": "https://github.com/Bhawyaa308/mental-health-and-health-tracking-website#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  }
+}
