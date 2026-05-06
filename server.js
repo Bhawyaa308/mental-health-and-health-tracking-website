@@ -18,8 +18,12 @@ const Payment = require("./models/Payment");
 
 // CONNECT ATLAS
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+.then(() => {
+  console.log("MongoDB Connected");
+})
+.catch(err => {
+  console.log("Mongo Error =", err);
+});
 
 /////////////////////
 // AUTH
@@ -38,23 +42,62 @@ app.post("/register", async (req, res) => {
 //  LOGIN FIXED
 /////////////////////
 
+// app.post("/login", async (req, res) => {
+//   try {
+//     const user = await User.findOne({
+//       username: req.body.username,
+//       password: req.body.password
+//     });
+
+//     if (user) {
+//       res.json({
+//         message: "Login Successful",
+//         username: user.username   //  IMPORTANT FIX
+//       });
+//     } else {
+//       res.status(401).json({ message: "Invalid Credentials" });
+//     }
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
 app.post("/login", async (req, res) => {
+
+  console.log("BODY =", req.body);
+
   try {
+
     const user = await User.findOne({
       username: req.body.username,
       password: req.body.password
     });
 
+    console.log("USER =", user);
+
     if (user) {
+
       res.json({
         message: "Login Successful",
-        username: user.username   //  IMPORTANT FIX
+        username: user.username
       });
+
     } else {
-      res.status(401).json({ message: "Invalid Credentials" });
+
+      res.status(401).json({
+        message: "Invalid Credentials"
+      });
+
     }
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.log("LOGIN ERROR =", err);
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
 
@@ -157,11 +200,6 @@ app.post("/payment", async (req, res) => {
   }
 });
 
-/////////////////////
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
 app.post("/chat", async (req, res) => {
 
   try {
@@ -193,4 +231,9 @@ app.post("/chat", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+/////////////////////
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
