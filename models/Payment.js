@@ -1,14 +1,68 @@
 const mongoose = require("mongoose");
 
-const paymentSchema = new mongoose.Schema({
-  username: { type: String, required: true },
+if (mongoose.models.Payment) {
+  delete mongoose.models.Payment;
+}
 
-  sessionName: { type: String },
-  amount: { type: Number, required: true },
+const PaymentSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true
+  },
 
-  cardName: { type: String },
+  sessionName: {
+    type: String,
+    required: true
+  },
 
-  date: { type: Date, default: Date.now }
+  amount: {
+    type: Number,
+    required: true
+  },
+
+  card: {
+    holderName: {
+      type: String,
+      required: true
+    },
+
+    type: {
+      type: String,
+      required: true
+    },
+
+    last4: {
+      type: String,
+      required: true
+    },
+
+    expiry: {
+      type: String,
+      required: true
+    }
+  },
+
+  security: {
+    cvvEntered: {
+      type: Boolean,
+      default: true
+    },
+
+    paymentMode: {
+      type: String,
+      default: "Card"
+    }
+  },
+
+  status: {
+    type: String,
+    default: "Paid"
+  },
+
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-module.exports = mongoose.model("Payment", paymentSchema);
+module.exports = mongoose.model("Payment", PaymentSchema);

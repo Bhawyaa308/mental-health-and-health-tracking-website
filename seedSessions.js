@@ -4,104 +4,149 @@ mongoose.connect(
   "mongodb+srv://bhawyaa107_db_user:EG5ooZtO53e177jk@cluster1.wzuibjh.mongodb.net/mindfulness"
 )
 .then(async () => {
-  console.log("✅ MongoDB Connected");
+  console.log("MongoDB Connected");
 
-  const JournalSchema = new mongoose.Schema({}, { strict: false });
-  const Journal = mongoose.model("JournalSeed", JournalSchema, "journals");
+  const PaymentSchema = new mongoose.Schema({}, { strict: false });
+  const Payment = mongoose.model("PaymentSeed", PaymentSchema, "payments");
 
-  await Journal.deleteMany({});
-  console.log("🗑 Old journal data deleted");
+  await Payment.deleteMany({});
+  console.log("Old payment data deleted");
 
   const users = [
-    "bhawyaa garg",
-    "autoUser1776222077854",
-    "autoUser1776222751328",
-    "Manit",
-    "simran24",
-    "aman08",
-    "riya17",
-    "karan99"
+    {
+      username: "bhawyaa garg",
+      holder: "Bhawyaa Garg",
+      type: "VISA",
+      last4: "3456",
+      expiry: "12/28"
+    },
+    {
+      username: "autoUser1776222077854",
+      holder: "Automation User",
+      type: "MasterCard",
+      last4: "2184",
+      expiry: "11/27"
+    },
+    {
+      username: "autoUser1776222751328",
+      holder: "Automation User",
+      type: "AMEX",
+      last4: "6721",
+      expiry: "10/29"
+    },
+    {
+      username: "Manit",
+      holder: "Manit Garg",
+      type: "VISA",
+      last4: "4821",
+      expiry: "09/28"
+    },
+    {
+      username: "simran24",
+      holder: "Simran Kaur",
+      type: "DISC",
+      last4: "9045",
+      expiry: "08/27"
+    },
+    {
+      username: "aman08",
+      holder: "Aman Verma",
+      type: "MasterCard",
+      last4: "5512",
+      expiry: "01/30"
+    },
+    {
+      username: "riya17",
+      holder: "Riya Sharma",
+      type: "VISA",
+      last4: "7734",
+      expiry: "06/29"
+    },
+    {
+      username: "karan99",
+      holder: "Karan Malhotra",
+      type: "AMEX",
+      last4: "6619",
+      expiry: "03/28"
+    }
   ];
 
-  const entries = [
-    {
-      text: "Had a peaceful morning walk and felt refreshed for the day.",
-      mood: "calm",
-      tags: ["morning"]
-    },
-    {
-      text: "Felt stressed because of deadlines but managed it well.",
-      mood: "stressed",
-      tags: ["work"]
-    },
-    {
-      text: "Spent quality time with family and felt grateful today.",
-      mood: "happy",
-      tags: ["family"]
-    },
-    {
-      text: "Low energy today, need more rest and better sleep.",
-      mood: "tired",
-      tags: ["health"]
-    },
-    {
-      text: "Completed my goals today and feel very proud.",
-      mood: "motivated",
-      tags: ["success"]
-    },
-    {
-      text: "Overthinking too much today, need to slow down.",
-      mood: "anxious",
-      tags: ["mind"]
-    },
-    {
-      text: "Meditation helped me feel more balanced and relaxed.",
-      mood: "peaceful",
-      tags: ["meditation"]
-    },
-    {
-      text: "A small act of kindness made my whole day better.",
-      mood: "joyful",
-      tags: ["gratitude"]
-    },
-    {
-      text: "Missed a few goals today but tomorrow is a new chance.",
-      mood: "hopeful",
-      tags: ["growth"]
-    },
-    {
-      text: "Felt emotionally heavy today and needed some quiet time.",
-      mood: "sad",
-      tags: ["reflection"]
-    }
+  const plans = [
+    { sessionName: "Morning Meditation Circle", amount: 300 },
+    { sessionName: "Personal Therapy Session", amount: 500 },
+    { sessionName: "Stress Management Mastery", amount: 700 },
+    { sessionName: "Mindful Movement Class", amount: 500 },
+    { sessionName: "Life Coaching Session", amount: 800 },
+    { sessionName: "Evening Relaxation Circle", amount: 650 }
   ];
 
   const data = [];
 
-  users.forEach((username, uIndex) => {
-    const count = 6 + (uIndex % 5); // gives 6 to 10 entries
+  users.forEach((user, index) => {
+
+    // one user only premium package
+    if (index === 0) {
+      data.push({
+        username: user.username,
+        sessionName: "Unlimited Wellness Subscription",
+        amount: 8200,
+
+        card: {
+          holderName: user.holder,
+          type: user.type,
+          last4: user.last4,
+          expiry: user.expiry
+        },
+
+        security: {
+          cvvEntered: true,
+          paymentMode: "Card"
+        },
+
+        status: "Paid",
+        date: new Date("2026-04-25T10:00:00Z")
+      });
+
+      return;
+    }
+
+    // others get 3 to 5 purchases
+    const count = 3 + (index % 3); // 3,4,5
 
     for (let i = 0; i < count; i++) {
-      const chosen = entries[(uIndex + i) % entries.length];
+      const plan = plans[(index + i) % plans.length];
 
-      const date = new Date("2026-04-01T09:00:00Z");
-      date.setDate(date.getDate() + i * 3 + uIndex);
+      const dt = new Date("2026-04-01T10:00:00Z");
+      dt.setDate(dt.getDate() + (index * 3) + i * 4);
 
       data.push({
-        username: username,
-        text: chosen.text,
-        mood: chosen.mood,
-        tags: chosen.tags,
-        date: date
+        username: user.username,
+        sessionName: plan.sessionName,
+        amount: plan.amount,
+
+        card: {
+          holderName: user.holder,
+          type: user.type,
+          last4: user.last4,
+          expiry: user.expiry
+        },
+
+        security: {
+          cvvEntered: true,
+          paymentMode: "Card"
+        },
+
+        status: "Paid",
+        date: dt
       });
     }
   });
 
-  await Journal.insertMany(data);
+  await Payment.insertMany(data);
 
-  console.log(`✅ ${data.length} journal records inserted successfully`);
+  console.log(` ${data.length} payment records inserted`);
   process.exit();
 })
 .catch(err => {
-  console.log("❌ Error:", err);
+  console.log(" Error:", err);
 });

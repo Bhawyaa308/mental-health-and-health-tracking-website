@@ -974,7 +974,7 @@
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              username: getUser(), // ✅ FIXED
+              username: getUser(),
               mood,
               score: Number(score),
               note,
@@ -1007,7 +1007,7 @@
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              username: getUser(), // ✅ FIXED
+              username: getUser(),
               text,
               mood,
               tags: ["daily"],
@@ -1028,70 +1028,120 @@
       document.querySelectorAll(".card-button")[3].onclick = saveJournal;
 
       //////////////////////////////
-      // CHATBOT
-      //////////////////////////////
-      const chatToggle = document.getElementById("chat-toggle");
-      const chatBox = document.getElementById("chat-box");
-      const chatClose = document.getElementById("chat-close");
-      const chatMessages = document.getElementById("chat-messages");
-      const chatInput = document.getElementById("chat-input");
-      const chatSend = document.getElementById("chat-send");
+// CHATBOT (GROQ API - FREE)
+// Replace ONLY chatbot section
+//////////////////////////////
 
-      chatToggle.addEventListener("click", () => {
-        chatBox.classList.add("active");
-      });
+const chatToggle = document.getElementById("chat-toggle");
+const chatBox = document.getElementById("chat-box");
+const chatClose = document.getElementById("chat-close");
+const chatMessages = document.getElementById("chat-messages");
+const chatInput = document.getElementById("chat-input");
+const chatSend = document.getElementById("chat-send");
 
-      chatClose.addEventListener("click", () => {
-        chatBox.classList.remove("active");
-      });
+// 🔥 Paste your Groq API Key here
+// const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const response = await fetch("http://localhost:3000/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: userMessage
+  })
+});
 
-      chatSend.addEventListener("click", sendMessage);
-      chatInput.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") sendMessage();
-      });
+const data = await response.json();
 
-      let lastBotMessage = "";
-      const helpMessages = [
-        'Here to help 🌿 — try "breathing", "music", "journal".',
-        'Try: "mood quiz", "yoga", "meditation".',
-        'You can ask: "stress relief", "gratitude".',
-      ];
-      let helpIndex = 0;
+chatToggle.addEventListener("click", () => {
+  chatBox.classList.add("active");
+});
 
-      function sendMessage() {
-        const userText = chatInput.value.trim();
-        if (!userText) return;
+chatClose.addEventListener("click", () => {
+  chatBox.classList.remove("active");
+});
 
-        appendMessage(userText, "user");
-        chatInput.value = "";
+chatSend.addEventListener("click", sendMessage);
 
-        setTimeout(() => {
-          let botReply = getBotReply(userText.toLowerCase());
+chatInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") sendMessage();
+});
 
-          if (botReply === lastBotMessage) {
-            botReply = "Try breathing or calming music 💡";
-          }
+function appendMessage(text, sender) {
+  const msgDiv = document.createElement("div");
+  msgDiv.classList.add("message", sender);
+  msgDiv.textContent = text;
+  chatMessages.appendChild(msgDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-          lastBotMessage = botReply;
-          appendMessage(botReply, "bot");
-        }, 500);
+async function sendMessage() {
+  const userText = chatInput.value.trim();
+  if (!userText) return;
+
+  appendMessage(userText, "user");
+  chatInput.value = "";
+
+  const typingMsg = document.createElement("div");
+  typingMsg.classList.add("message", "bot");
+  typingMsg.id = "typing-msg";
+  typingMsg.textContent = "Typing...";
+  chatMessages.appendChild(typingMsg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  try {
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + GROQ_API_KEY
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: "You are a helpful wellness assistant. Be warm, supportive, short and practical."
+            },
+            {
+              role: "user",
+              content: userText
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 300
+        })
       }
+    );
 
-      function appendMessage(text, sender) {
-        const msgDiv = document.createElement("div");
-        msgDiv.classList.add("message", sender);
-        msgDiv.textContent = text;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
+    const data = await response.json();
+    console.log(data);
 
-      function getBotReply(input) {
-        if (/(hello|hi)/.test(input)) return "Hello! 🌸";
-        if (/(sad)/.test(input)) return "Try deep breathing.";
-        if (/(stress)/.test(input)) return "Try grounding exercise.";
-        if (/music/.test(input)) return "Try calming music 🎵";
-        return "I'm here for you 💕";
-      }
+    document.getElementById("typing-msg")?.remove();
+
+    if (data.error) {
+      appendMessage("API Error: " + data.error.message, "bot");
+      return;
+    }
+
+    const reply =
+      data.choices &&
+      data.choices[0] &&
+      data.choices[0].message &&
+      data.choices[0].message.content
+        ? data.choices[0].message.content
+        : "No response.";
+
+    appendMessage(reply, "bot");
+
+  } catch (error) {
+    document.getElementById("typing-msg")?.remove();
+    appendMessage("Connection failed.", "bot");
+    console.error(error);
+  }
+}
 
       //////////////////////////////
       // QUOTES
@@ -1111,23 +1161,24 @@
       }
 
       displayRandomQuote();
+
       // 🔥 LOGIN STATE UI
-const user = localStorage.getItem("username");
+      const user = localStorage.getItem("username");
 
-const loginBtn = document.getElementById("loginBtn");
-const signupBtn = document.getElementById("signupBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+      const loginBtn = document.getElementById("loginBtn");
+      const signupBtn = document.getElementById("signupBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
 
-if (user) {
-  loginBtn.style.display = "none";
-  signupBtn.style.display = "none";
-  logoutBtn.style.display = "inline-block";
-}
+      if (user) {
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+      }
 
-logoutBtn.addEventListener("click", () => {
-  localStorage.removeItem("username");
-  window.location.href = "login.html";
-});
-    </script>
+      logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("username");
+        window.location.href = "login.html";
+      });
+</script>
   </body>
 </html>

@@ -658,17 +658,52 @@
         payButton.textContent = "Processing...";
 
         try {
+          const cardNumberRaw = document
+            .getElementById("cardNumber")
+            .value.replace(/\s/g, "");
+
+          const expiryValue = document.getElementById("expiry").value;
+          const cvvValue = document.getElementById("cvv").value;
+          const cardNameValue = document.getElementById("cardName").value;
+
+          let cardType = "Unknown";
+
+          if (cardNumberRaw.startsWith("4")) cardType = "VISA";
+          else if (
+            cardNumberRaw.startsWith("5") ||
+            cardNumberRaw.startsWith("2")
+          )
+            cardType = "MasterCard";
+          else if (cardNumberRaw.startsWith("3")) cardType = "AMEX";
+          else if (cardNumberRaw.startsWith("6")) cardType = "DISC";
+
           const res = await fetch(`${BASE_URL}/payment`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+
             body: JSON.stringify({
               username: getUser(),
+
               sessionName:
                 sessionStorage.getItem("sessionName") || "Wellness Session",
+
               amount: paymentAmount,
-              cardName: document.getElementById("cardName").value,
+
+              card: {
+                holderName: cardNameValue,
+                type: cardType,
+                last4: cardNumberRaw.slice(-4),
+                expiry: expiryValue,
+              },
+
+              security: {
+                cvvEntered: cvvValue.length > 0,
+                paymentMode: "Card",
+              },
+
+              status: "Paid",
             }),
           });
 

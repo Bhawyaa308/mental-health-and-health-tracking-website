@@ -1,13 +1,13 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // MODELS
 const User = require("./models/User");
@@ -17,10 +17,8 @@ const Session = require("./models/Session");
 const Payment = require("./models/Payment");
 
 // CONNECT ATLAS
-mongoose.connect(
-  "mongodb+srv://bhawyaa107_db_user:EG5ooZtO53e177jk@cluster1.wzuibjh.mongodb.net/mindfulness?retryWrites=true&w=majority"
-)
-.then(() => console.log("✅ MongoDB Connected"))
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
 /////////////////////
@@ -37,7 +35,7 @@ app.post("/register", async (req, res) => {
 });
 
 /////////////////////
-// 🔥 LOGIN FIXED
+//  LOGIN FIXED
 /////////////////////
 
 app.post("/login", async (req, res) => {
@@ -50,7 +48,7 @@ app.post("/login", async (req, res) => {
     if (user) {
       res.json({
         message: "Login Successful",
-        username: user.username   // ✅ IMPORTANT FIX
+        username: user.username   //  IMPORTANT FIX
       });
     } else {
       res.status(401).json({ message: "Invalid Credentials" });
@@ -143,20 +141,56 @@ app.delete("/journal/:id", async (req, res) => {
   res.json({ message: "Deleted" });
 });
 
-/////////////////////
-// PAYMENT SAVE
-/////////////////////
-
 app.post("/payment", async (req, res) => {
   try {
+    console.log("BODY =", req.body);
+
     const data = await Payment.create(req.body);
+
+    console.log("SAVED =", data);
+
     res.json(data);
+
   } catch (err) {
+    console.log("PAYMENT ERROR =", err);
     res.status(500).json({ error: err.message });
   }
 });
 
 /////////////////////
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+app.post("/chat", async (req, res) => {
+
+  try {
+
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192",
+          messages: [
+            {
+              role: "user",
+              content: req.body.message
+            }
+          ]
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    res.json(data);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
