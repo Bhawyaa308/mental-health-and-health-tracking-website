@@ -1192,7 +1192,7 @@
         const username = getUser();
 
         const res = await fetch(
-          `https://mindfulness-qt01.onrender.com/session/${username}`,
+          `https://mindfulness-qto1.onrender.com/session/${username}`,
         );
         const data = await res.json();
 
@@ -1292,10 +1292,10 @@
             div.className = "activity-card";
 
             div.innerHTML = `
-      <div class="activity-icon">✨</div>
-      <div class="activity-name">${item.type}</div>
-      <div class="activity-time">${item.duration} mins</div>
-    `;
+        <div class="activity-icon">✨</div>
+        <div class="activity-name">${item.type}</div>
+        <div class="activity-time">${item.duration} mins</div>
+      `;
 
             container.appendChild(div);
           });
@@ -1341,7 +1341,7 @@
 
           if (!type || !duration) return;
 
-          await fetch("https://mindfulness-qt01.onrender.com/session", {
+          await fetch("https://mindfulness-qto1.onrender.com/session", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -1387,8 +1387,9 @@
 
         try {
           const res = await fetch(
-            `https://mindfulness-qt01.onrender.com/mood/${username}`,
+            `https://mindfulness-qto1.onrender.com/mood/${username}`,
           );
+
           const moods = await res.json();
 
           if (!moods.length) {
@@ -1406,6 +1407,8 @@
 
           statValues[2].innerText = avg + "/10";
         } catch (err) {
+          console.log(err);
+
           statValues[2].innerText = "0/10";
         }
       }
