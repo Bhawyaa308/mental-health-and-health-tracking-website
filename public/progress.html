@@ -972,7 +972,9 @@
         skeletons("mood-list");
 
         try {
-          const r = await fetch(`http://localhost:3000/journal/${getUser()}`);
+          const r = await fetch(
+            `https://mindfulness-qt01.onrender.com/journal/${getUser()}`,
+          );
           if (!r.ok) throw new Error("Journal fetch failed");
           const d = await r.json();
 
@@ -985,7 +987,9 @@
         }
 
         try {
-          const r = await fetch(`http://localhost:3000/mood/${getUser()}`);
+          const r = await fetch(
+            `https://mindfulness-qt01.onrender.com/mood/${getUser()}`,
+          );
           if (!r.ok) throw new Error("Mood fetch failed");
           const d = await r.json();
 

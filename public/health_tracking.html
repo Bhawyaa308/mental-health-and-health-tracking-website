@@ -1191,7 +1191,9 @@
       async function fetchData() {
         const username = getUser();
 
-        const res = await fetch(`http://localhost:3000/session/${username}`);
+        const res = await fetch(
+          `https://mindfulness-qt01.onrender.com/session/${username}`,
+        );
         const data = await res.json();
 
         console.log("DATA:", data);
@@ -1339,7 +1341,7 @@
 
           if (!type || !duration) return;
 
-          await fetch("http://localhost:3000/session", {
+          await fetch("https://mindfulness-qt01.onrender.com/session", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -1384,7 +1386,9 @@
         const statValues = document.querySelectorAll(".stat-value");
 
         try {
-          const res = await fetch(`http://localhost:3000/mood/${username}`);
+          const res = await fetch(
+            `https://mindfulness-qt01.onrender.com/mood/${username}`,
+          );
           const moods = await res.json();
 
           if (!moods.length) {
